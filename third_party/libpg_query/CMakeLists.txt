@@ -28,6 +28,6 @@ install(TARGETS duckdb_pg_query
         LIBRARY DESTINATION "${INSTALL_LIB_DIR}"
         ARCHIVE DESTINATION "${INSTALL_LIB_DIR}")
 
-disable_target_warnings(duckdb_pg_query)
+# disable_target_warnings(duckdb_pg_query)
 
 set_target_properties(duckdb_pg_query PROPERTIES POSITION_INDEPENDENT_CODE ON)
