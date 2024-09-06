@@ -1,17 +1,40 @@
 #include "postgres_parser.hpp"
 #include "duckdb/parser/transformer.hpp"
+#include "duckdb/parser/parser_options.hpp" 
+#include "parser/parser.hpp"
+#include "duckdb/parser/parser.hpp"
 
 #include <iostream>
 
+using namespace duckdb;
+
+void ParseQuery(const std::string &query);
+
 int main() {
 
-	duckdb::PostgresParser parser;
+	const string query = "SELECT * FROM table_name;";
+	ParseQuery(query);
+}
 
-	parser.Parse("SELECT * FROM t1;");
+void ParseQuery(const std::string &query) {
+	Parser parser;
+	parser.ParseQuery(query);
 
-	auto tree_type = parser.parse_tree;
+	// parser.KeywordList();
+// 	PostgresParser parser;
+// 	parser.Parse(query);
+// Parser::ParseQuery
+// 	auto parse_tree = parser.parse_tree;
 
-	// Parser parser;
+// 	ParserOptions options;
+// 	Transformer transformer(options);
 
-	std::cout << parser.success << std::endl;
+// 	vector<unique_ptr<SQLStatement>> statements;
+
+// 	transformer.TransformParseTree(parse_tree, statements);
+
+// 	// // print all statements
+// 	// for (auto &statement : statements) {
+// 	// 	statement->ToString();
+// 	// }
 }

@@ -1,6 +1,13 @@
 include_directories(../../third_party/libpg_query/include)
 include_directories(../../third_party/libpg_query)
 
+option(DISABLE_UNITY "Disable unity builds." TRUE)
+
+function(add_library_unity NAME MODE)
+  set(SRCS ${ARGN})
+  add_library(${NAME} OBJECT ${SRCS})
+endfunction()
+
 add_subdirectory(constraints)
 add_subdirectory(expression)
 add_subdirectory(parsed_data)
