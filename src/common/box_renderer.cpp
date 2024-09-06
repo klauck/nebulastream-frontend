@@ -3,10 +3,8 @@
 #include "duckdb/common/printer.hpp"
 #include "duckdb/common/types/column/column_data_collection.hpp"
 #include "duckdb/common/vector_operations/vector_operations.hpp"
-
 #include <sstream>
-
-#include "../../third_party/utf8proc/include/utf8proc_wrapper.hpp"
+#include "utf8proc_wrapper.hpp"
 
 namespace duckdb {
 

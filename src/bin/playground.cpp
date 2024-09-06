@@ -18,7 +18,7 @@ int main() {
 
 void ParseQuery(const std::string &query) {
 	Parser parser;
-	parser.ParseQuery(query);
+	// parser.ParseQuery(query);
 
 	// parser.KeywordList();
 // 	PostgresParser parser;

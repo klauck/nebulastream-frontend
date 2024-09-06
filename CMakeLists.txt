@@ -22,10 +22,18 @@ function(add_library_unity NAME MODE)
   add_library(${NAME} OBJECT ${SRCS})
 endfunction()
 
+
+include_directories(third_party/re2)
 include_directories(src/include)
+include_directories(third_party/utf8proc/include)
+include_directories(third_party/fmt/include)
+include_directories(third_party/fsst)
+include_directories(third_party/miniz)
+include_directories(third_party/pcg)
+include_directories(third_party/jaro_winkler)
+include_directories(third_party/yyjson/include)
 add_subdirectory(src)
 add_subdirectory(third_party)
-
 
 
 # include_directories(src/bin)
@@ -37,3 +45,7 @@ target_link_libraries(playground duckdb_parser)
 target_link_libraries(playground duckdb_utf8proc)
 target_link_libraries(playground duckdb_common)
 target_link_libraries(playground duckdb_fmt)
+target_link_libraries(playground duckdb_fsst)
+target_link_libraries(playground duckdb_miniz)
+target_link_libraries(playground duckdb_re2)
+target_link_libraries(playground duckdb_function)
