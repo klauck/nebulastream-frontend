@@ -1,9 +1,9 @@
 #include "duckdb/parser/query_error_context.hpp"
+
+#include "../../third_party/utf8proc/include/utf8proc_wrapper.hpp"
 #include "duckdb/parser/sql_statement.hpp"
 #include "duckdb/common/string_util.hpp"
 #include "duckdb/common/to_string.hpp"
-
-#include "utf8proc_wrapper.hpp"
 
 namespace duckdb {
 

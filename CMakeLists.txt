@@ -14,3 +14,4 @@ add_executable(playground src/bin/playground.cpp)
 
 target_link_libraries(playground duckdb_pg_query)
 target_link_libraries(playground duckdb_parser)
+target_link_libraries(playground duckdb_utf8proc)
