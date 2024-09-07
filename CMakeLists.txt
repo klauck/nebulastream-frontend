@@ -3,6 +3,8 @@ project(nes_frontend)
 
 set(CMAKE_CXX_STANDARD "11")
 
+
+
 # functions defination
 
 function(disable_target_warnings NAME)
@@ -185,4 +187,18 @@ target_link_libraries(playground duckdb_optimizer_rules)
 target_link_libraries(playground duckdb_optimizer_compressed_materialization)
 target_link_libraries(playground duckdb_planner_expression)
 target_link_libraries(playground duckdb_storage_table)
-
+target_link_libraries(playground duckdb_common_enums)
+target_link_libraries(playground duckdb_storage_statistics)
+target_link_libraries(playground duckdb_execution_index_art)
+target_link_libraries(playground duckdb_planner_filter)
+target_link_libraries(playground duckdb_parallel)
+target_link_libraries(playground duckdb_func_ops_main)
+target_link_libraries(playground duckdb_main_relation)
+target_link_libraries(playground duckdb_catalog_default_entries)
+target_link_libraries(playground duckdb_constraints)
+target_link_libraries(playground duckdb_optimizer_statistics_expr)
+target_link_libraries(playground duckdb_main_relation)
+target_link_libraries(playground duckdb_execution)
+target_link_libraries(playground duckdb_func_compressed_materialization)
+target_link_libraries(playground duckdb_optimizer)
+target_link_libraries(playground duckdb_physical_plan)
