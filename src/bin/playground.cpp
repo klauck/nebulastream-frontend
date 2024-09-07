@@ -1,8 +1,6 @@
 #include "postgres_parser.hpp"
 #include "duckdb/parser/transformer.hpp"
-#include "duckdb/parser/parser_options.hpp" 
-#include "parser/parser.hpp"
-#include "duckdb/parser/parser.hpp"
+#include "duckdb/parser/parser_options.hpp"  
 
 #include <iostream>
 
@@ -17,7 +15,7 @@ int main() {
 }
 
 void ParseQuery(const std::string &query) {
-	Parser parser;
+	// Parser parser;
 	// parser.ParseQuery(query);
 
 	// parser.KeywordList();
@@ -26,8 +24,8 @@ void ParseQuery(const std::string &query) {
 // Parser::ParseQuery
 // 	auto parse_tree = parser.parse_tree;
 
-// 	ParserOptions options;
-// 	Transformer transformer(options);
+	ParserOptions options;
+	Transformer transformer(options);
 
 // 	vector<unique_ptr<SQLStatement>> statements;
 
