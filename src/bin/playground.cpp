@@ -1,38 +1,40 @@
-#include "postgres_parser.hpp"
-#include "duckdb/parser/transformer.hpp"
-#include "duckdb/parser/parser_options.hpp"  
-
 #include <iostream>
+#include <duckdb/parser/parser.hpp>
 
+using namespace std;
 using namespace duckdb;
 
-void ParseQuery(const std::string &query);
+int main()
+{
+    const string query = "SELECT * FROM nebula_data;update nebula_data set a = 1 where b = 2;";
 
-int main() {
+    cout << "Query: " << query << endl;
 
-	const string query = "SELECT * FROM table_name;";
-	ParseQuery(query);
-}
+    Parser parser;
 
-void ParseQuery(const std::string &query) {
-	// Parser parser;
-	// parser.ParseQuery(query);
+    try{
+        parser.ParseQuery(query);
+    } catch (std::exception &e) {
+        cout << "Exception: " << e.what() << endl;
+        return -1;
+    }
 
-	// parser.KeywordList();
-// 	PostgresParser parser;
-// 	parser.Parse(query);
-// Parser::ParseQuery
-// 	auto parse_tree = parser.parse_tree;
+    cout << "Query Parsed" << endl;
+    cout << "Query size: " << parser.statements.size() << endl;
+	const auto& statements = parser.statements; // Use a const reference to avoid copying
 
-	ParserOptions options;
-	Transformer transformer(options);
+	for (const auto &stmt : statements) {
+        auto& statement = *stmt;
+        
 
-// 	vector<unique_ptr<SQLStatement>> statements;
+        if(statement.type == StatementType::SELECT_STATEMENT){
+            auto &st = (*stmt).Cast<SelectStatement>();
+            cout << "Select Statement Parsed" << '\n';
+        } else {
+            cout << "Unknown Statement" << '\n';
+        }
+	}
 
-// 	transformer.TransformParseTree(parse_tree, statements);
-
-// 	// // print all statements
-// 	// for (auto &statement : statements) {
-// 	// 	statement->ToString();
-// 	// }
+    
+    return 0;
 }
