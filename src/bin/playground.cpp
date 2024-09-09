@@ -1,6 +1,8 @@
 #include <iostream>
 #include <duckdb/parser/parser.hpp>
 #include <duckdb/parser/query_node/select_node.hpp>
+#include <duckdb/parser/statement/update_statement.hpp>
+#include <sys/stat.h>
 
 using namespace std;
 using namespace duckdb;
@@ -26,24 +28,54 @@ int main()
 
 	for (const auto &stmt : statements) {
         auto& statement = *stmt;
-        
 
-        if(statement.type == StatementType::SELECT_STATEMENT){
-            auto &st = (*stmt).Cast<SelectStatement>();
+	    cout << "========" << " Query Location: " << statement.stmt_location << "========" << endl;
+
+	    switch (stmt->type) {
+	        case StatementType::SELECT_STATEMENT: {
+	        	auto &st = stmt->Cast<SelectStatement>();
+	        	QueryNode &node = *st.node;
+
+	        	cout << "Select Statement: " << endl;
+
+	        	if(node.type == QueryNodeType::SELECT_NODE) {
+	        		auto &node_select = dynamic_cast<SelectNode &>(node);
 
 
-            //check if st node type is equal to selectnode type
+	        		cout << "Columns: ";
 
-            auto &node = *st.node;
+	        		//iterate through select list
+	        		for(const auto &select_element : node_select.select_list) {
+	        			cout << select_element->ToString() << " ";
+	        		}
 
-            if(*node.type == SelectNode::type){}
+	        		cout << endl;
 
-            cout << "Select Statement Parsed" << '\n';
-        } else {
-            cout << "Unknown Statement" << '\n';
-        }
+	        		cout << "Select From: " << node_select.from_table->ToString() << endl;
+	        	}
+	            break;
+	        }
+	        case StatementType::UPDATE_STATEMENT: {
+	            auto &st = stmt->Cast<UpdateStatement>();
+
+	        	auto &set_info = *st.set_info;
+
+	        	cout << "Update Statement" << endl;
+
+	        	cout << "Update Elements: " ;
+
+	        	for(const auto &update_element : set_info.columns) {
+	        		cout << update_element << " ";
+	        	}
+
+	        	cout << endl;
+
+	        	cout << "Select From: " << st.table->ToString() << endl;
+	        	break;
+	        }
+		    default: cout << "Unknown statement" << endl;
+	    }
 	}
 
-    
     return 0;
 }

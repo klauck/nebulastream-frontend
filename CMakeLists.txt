@@ -1366,7 +1366,7 @@ endif()
 
 if(NOT DUCKDB_EXPLICIT_PLATFORM)
   add_executable(playground src/bin/playground.cpp)
-  target_link_libraries(playground duckdb) 
+  target_link_libraries(playground duckdb)
   link_threads(playground)
 
   set_target_properties(playground PROPERTIES OUTPUT_NAME playground)
