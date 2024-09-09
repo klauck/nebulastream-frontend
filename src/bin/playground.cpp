@@ -1,5 +1,6 @@
 #include <iostream>
 #include <duckdb/parser/parser.hpp>
+#include <duckdb/parser/query_node/select_node.hpp>
 
 using namespace std;
 using namespace duckdb;
@@ -29,6 +30,14 @@ int main()
 
         if(statement.type == StatementType::SELECT_STATEMENT){
             auto &st = (*stmt).Cast<SelectStatement>();
+
+
+            //check if st node type is equal to selectnode type
+
+            auto &node = *st.node;
+
+            if(*node.type == SelectNode::type){}
+
             cout << "Select Statement Parsed" << '\n';
         } else {
             cout << "Unknown Statement" << '\n';
