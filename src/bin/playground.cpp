@@ -2,20 +2,16 @@
 #include <duckdb/parser/parser.hpp>
 #include <duckdb/parser/query_node/select_node.hpp>
 #include <duckdb/parser/statement/update_statement.hpp>
-#include <sys/stat.h>
 
-using namespace std;
 using namespace duckdb;
+using namespace std;
 
-int main()
-{
-    const string query = "SELECT * FROM nebula_data;update nebula_data set a = 1 where b = 2;";
-
+static int ParseUsingDuckDB(const string &query) {
     cout << "Query: " << query << endl;
 
     Parser parser;
 
-    try{
+    try {
         parser.ParseQuery(query);
     } catch (std::exception &e) {
         cout << "Exception: " << e.what() << endl;
@@ -24,58 +20,66 @@ int main()
 
     cout << "Query Parsed" << endl;
     cout << "Query size: " << parser.statements.size() << endl;
-	const auto& statements = parser.statements; // Use a const reference to avoid copying
+    const auto &statements = parser.statements; // Use a const reference to avoid copying
 
-	for (const auto &stmt : statements) {
-        auto& statement = *stmt;
+    for (const auto &stmt: statements) {
+        auto &statement = *stmt;
 
-	    cout << "========" << " Query Location: " << statement.stmt_location << "========" << endl;
+        cout << "========" << " Query Location: " << statement.stmt_location << "========" << endl;
 
-	    switch (stmt->type) {
-	        case StatementType::SELECT_STATEMENT: {
-	        	auto &st = stmt->Cast<SelectStatement>();
-	        	QueryNode &node = *st.node;
+        switch (stmt->type) {
+            case StatementType::SELECT_STATEMENT: {
+                auto &st = stmt->Cast<SelectStatement>();
+                QueryNode &node = *st.node;
 
-	        	cout << "Select Statement: " << endl;
+                cout << "Select Statement: " << endl;
 
-	        	if(node.type == QueryNodeType::SELECT_NODE) {
-	        		auto &node_select = dynamic_cast<SelectNode &>(node);
+                if (node.type == QueryNodeType::SELECT_NODE) {
+                    auto &node_select = dynamic_cast<SelectNode &>(node);
 
 
-	        		cout << "Columns: ";
+                    cout << "Columns: ";
 
-	        		//iterate through select list
-	        		for(const auto &select_element : node_select.select_list) {
-	        			cout << select_element->ToString() << " ";
-	        		}
+                    //iterate through select list
+                    for (const auto &select_element: node_select.select_list) {
+                        cout << select_element->ToString() << " ";
+                    }
 
-	        		cout << endl;
+                    cout << endl;
 
-	        		cout << "Select From: " << node_select.from_table->ToString() << endl;
-	        	}
-	            break;
-	        }
-	        case StatementType::UPDATE_STATEMENT: {
-	            auto &st = stmt->Cast<UpdateStatement>();
+                    cout << "Select From: " << node_select.from_table->ToString() << endl;
+                }
+                break;
+            }
+            case StatementType::UPDATE_STATEMENT: {
+                auto &st = stmt->Cast<UpdateStatement>();
 
-	        	auto &set_info = *st.set_info;
+                auto &set_info = *st.set_info;
 
-	        	cout << "Update Statement" << endl;
+                cout << "Update Statement" << endl;
 
-	        	cout << "Update Elements: " ;
+                cout << "Update Elements: ";
 
-	        	for(const auto &update_element : set_info.columns) {
-	        		cout << update_element << " ";
-	        	}
+                for (const auto &update_element: set_info.columns) {
+                    cout << update_element << " ";
+                }
 
-	        	cout << endl;
+                cout << endl;
 
-	        	cout << "Select From: " << st.table->ToString() << endl;
-	        	break;
-	        }
-		    default: cout << "Unknown statement" << endl;
-	    }
-	}
+                cout << "Select From: " << st.table->ToString() << endl;
+                break;
+            }
+            default: cout << "Unknown statement" << endl;
+        }
+    }
+
+    return 0;
+}
+
+int main() {
+    const std::string query = "SELECT * FROM nebula_data;update nebula_data set a = 1 where b = 2;";
+
+    ParseUsingDuckDB(query);
 
     return 0;
 }
