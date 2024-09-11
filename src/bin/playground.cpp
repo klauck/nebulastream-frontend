@@ -5,6 +5,11 @@
 #include <duckdb/parser/statement/update_statement.hpp>
 #include <nodes/parsenodes.hpp>
 #include <list>
+#include <duckdb/main/client_context.hpp>
+#include <duckdb/main/connection.hpp>
+#include <duckdb/main/database.hpp>
+#include <duckdb/planner/binder.hpp>
+#include <duckdb/planner/planner.hpp>
 #include <parser/parser.hpp>
 
 using namespace duckdb;
@@ -12,6 +17,7 @@ using namespace std;
 
 int PRINT_LOGS = 0;
 
+#pragma region DuckDB Parser
 static int ParseUsingDuckDB(const string &query) {
     cout << "Query: " << query << endl;
 
@@ -81,6 +87,9 @@ static int ParseUsingDuckDB(const string &query) {
 
     return 0;
 }
+#pragma endregion
+
+#pragma region Postgress Parser
 
 template<class T>
 
@@ -211,9 +220,12 @@ static int ParsePGStatement(duckdb_libpgquery::PGNode *node) {
                         cout << col << ", ";
                     }
                     cout << endl;
+
+                    return 1;
                 }
             } else {
                 cout << "Process not implemented for this statement" << endl;
+                return 0;
             }
             cout << "======END Select Statement======" << endl;
             break;
@@ -267,14 +279,52 @@ static int ParseUsingPGParser(const string &query) {
             ParsePGStatement(node);
         }
     }
+    return 1;
 }
+
+#pragma endregion
+
+
+#pragma region Binder
+static void DuckDbBinderTest() {
+    DuckDB db(nullptr);
+    Connection con(db);
+
+    //con.Query()
+    auto &database_instance = db.instance;
+    auto context = make_shared_ptr<ClientContext>(database_instance->shared_from_this());
+    auto binder = Binder::CreateBinder(*context);
+    Planner planner(*context);
+    //Optimizer optimizer(binder, context);
+
+    const auto create_query = "CREATE TABLE students(id INTEGER, name VARCHAR, age INTEGER);";
+    const auto insert_query = "INSERT INTO students VALUES (1, 'Alice', 22), (2, 'Bob', 25), (3, 'Charlie', 23);";
+    const auto select_query = "SELECT * FROM students;";
+
+    Parser parser;
+    parser.ParseQuery(create_query);
+
+    const auto &statements = parser.statements;
+
+    if(statements.empty()) {
+        cout << "Unable to parse statements";
+        return;
+    }
+
+    const duckdb::unique_ptr<SQLStatement> &create_sql_statement = statements[0];
+
+    context->transaction.BeginTransaction();
+    BoundStatement bounded_create_statement = binder->Bind(*create_sql_statement);
+}
+#pragma endregion
 
 int main() {
     const std::string query = "SELECT abc, def, ghq FROM nebula_data, xyz;update nebula_data set a = 1 where b = 2;";
 
     //ParseUsingDuckDB(query);
-
     ParseUsingPGParser(query);
+
+    //DuckDbBinderTest();
 
     return 0;
 }
