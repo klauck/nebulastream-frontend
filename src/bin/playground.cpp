@@ -5,6 +5,7 @@
 #include <duckdb/parser/statement/update_statement.hpp>
 #include <nodes/parsenodes.hpp>
 #include <list>
+#include <parser/parser.hpp>
 
 using namespace duckdb;
 using namespace std;
@@ -111,18 +112,23 @@ static list<string> ParseStarRef(duckdb_libpgquery::PGAStar &ref) {
 
 static list<string> ParseColumn(duckdb_libpgquery::PGNode &node) {
     switch (node.type) {
+        //if the target type is response target
         case duckdb_libpgquery::T_PGResTarget: {
             if(PRINT_LOGS)
                 cout << "Column is PGResTarget" << endl;
             const auto target = PGCast<duckdb_libpgquery::PGResTarget>(node);
             return ParseColumn(*target.val);
         }
+
+        //if the node type is column reference
         case duckdb_libpgquery::T_PGColumnRef: {
             if(PRINT_LOGS)
                 cout << "Column is PGColumnRef" << endl;
             auto column_ref = PGCast<duckdb_libpgquery::PGColumnRef>(node);
             return ParseColumnRef(column_ref);
         }
+
+        // if the node is a *
         case duckdb_libpgquery::T_PGAStar: {
             if(PRINT_LOGS)
                 cout << "Column is PGAStar" << endl;
@@ -139,8 +145,10 @@ static list<string> ParseColumn(duckdb_libpgquery::PGNode &node) {
 static std::list<string> ParseColumns(const duckdb_libpgquery::PGList &list) {
     std::list<string> columns = {};
 
+    //iterate through all columns
     for (auto node = list.head; node != nullptr; node = node->next) {
         const auto target = static_cast<duckdb_libpgquery::PGNode *>(node->data.ptr_value);
+        //parse single column
         auto new_columns = ParseColumn(*target);
 
         for(const auto& c: new_columns) {
@@ -153,18 +161,26 @@ static std::list<string> ParseColumns(const duckdb_libpgquery::PGList &list) {
 
 static int ParsePGStatement(duckdb_libpgquery::PGNode *node) {
     switch (node->type) {
+        //check if node type is select statement
         case duckdb_libpgquery::T_PGSelectStmt: {
             cout << "======Select Statement======" << endl;
 
+            //casting node to select statement
             const auto cs = PGCast<duckdb_libpgquery::PGSelectStmt>(*node);
 
+            //check if there is no union, intercept, etc in the statement
             if (cs.op == duckdb_libpgquery::PG_SETOP_NONE) {
+
+                //getting from table clause
                 const auto &from = cs.fromClause;
 
+                //if query has from clause
                 if (from) {
+                    //iterate through all from clauses
                     for (auto node = from->head; node != nullptr; node = node->next) {
                         auto n = static_cast<duckdb_libpgquery::PGNode *>(node->data.ptr_value);
 
+                        //check if the node type is range variable (used for from table clause)
                         if (n->type == duckdb_libpgquery::T_PGRangeVar) {
                             auto range_root = static_cast<duckdb_libpgquery::PGRangeVar *>(node->data.ptr_value);
 
@@ -186,7 +202,9 @@ static int ParsePGStatement(duckdb_libpgquery::PGNode *node) {
 
                 auto target = static_cast<duckdb_libpgquery::PGNode *>(targetList->head->data.ptr_value);
 
+                //if the node type is result target (select list)
                 if (target->type == duckdb_libpgquery::T_PGResTarget) {
+                    //parse all select columns
                     auto columns = ParseColumns(*targetList);
                     cout << "Columns: ";
                     for (const auto& col: columns) {
@@ -221,17 +239,17 @@ static int ParsePGRawStatement(const void *node) {
 static int ParseUsingPGParser(const string &query) {
     //ParserOptions options; //using default options
 
-    PostgresParser parser{};
-
-    //parse query
-    parser.Parse(query);
-
     cout << "Query: " << query << endl;
+
+
+    PostgresParser parser{};
+    parser.Parse(query);
 
     if (parser.success && parser.parse_tree) {
         cout << "Query Parsed" << endl;
     } else {
-        cout << "Query Parsed" << endl;
+        cout << "Unable to parse query." << endl;
+        return -1;
     }
 
     const auto tree = parser.parse_tree;
@@ -252,7 +270,7 @@ static int ParseUsingPGParser(const string &query) {
 }
 
 int main() {
-    const std::string query = "SELECT abc, def, ghq FROM nebula_data;update nebula_data set a = 1 where b = 2;";
+    const std::string query = "SELECT abc, def, ghq FROM nebula_data, xyz;update nebula_data set a = 1 where b = 2;";
 
     //ParseUsingDuckDB(query);
 
