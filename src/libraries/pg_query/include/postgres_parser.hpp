@@ -1,5 +1,5 @@
 //===----------------------------------------------------------------------===//
-//                         DuckDB
+//                         
 //
 // postgres_parser.hpp
 //
@@ -13,7 +13,7 @@
 #include "nodes/pg_list.hpp"
 #include "pg_simplified_token.hpp"
 
-namespace duckdb {
+namespace pg_parser {
 class PostgresParser {
 public:
 	PostgresParser();

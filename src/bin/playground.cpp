@@ -2,9 +2,11 @@
 
 #include <iostream>
 
+using namespace pg_parser;
+
 int main() {
 
-	duckdb::PostgresParser parser;
+	PostgresParser parser;
 
 	parser.Parse("SELECT * FROM t1;");
 	std::cout << parser.success << std::endl;

@@ -5,7 +5,7 @@
 #include "parser/scansup.hpp"
 #include "common/keywords.hpp"
 
-namespace duckdb {
+namespace pg_parser {
 
 PostgresParser::PostgresParser() : success(false), parse_tree(nullptr), error_message(""), error_location(0) {}
 
@@ -39,7 +39,6 @@ bool PostgresParser::IsKeyword(const std::string &text) {
 }
 
 std::vector<pgquery::PGKeyword> PostgresParser::KeywordList() {
-	// FIXME: because of this, we might need to change the libpg_query library to use duckdb::vector
 	std::vector<pgquery::PGKeyword> tmp(pgquery::keyword_list());
 	return tmp;
 }
