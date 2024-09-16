@@ -23,7 +23,7 @@
 #include "common/keywords.hpp"
 #include "pg_definitions.hpp"
 
-namespace duckdb_libpgquery {
+namespace pgquery {
 
 /*
  * The scanner returns extra data about scanned tokens in this union type.

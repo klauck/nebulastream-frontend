@@ -8,5 +8,4 @@ int main() {
 
 	parser.Parse("SELECT * FROM t1;");
 	std::cout << parser.success << std::endl;
-
 }
