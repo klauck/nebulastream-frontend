@@ -11,3 +11,4 @@ add_subdirectory(src)
 add_executable(playground src/bin/playground.cpp)
 
 target_link_libraries(playground pg_query)
+target_link_libraries(playground statements)

@@ -2,4 +2,4 @@
 set(CMAKE_C_VISIBILITY_PRESET hidden)
 
 add_subdirectory(libraries)
-
+add_subdirectory(parser)

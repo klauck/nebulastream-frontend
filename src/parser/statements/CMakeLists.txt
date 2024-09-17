@@ -1,0 +1,1 @@
+add_library(statements OBJECT select_statement.cpp)
