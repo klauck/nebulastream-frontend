@@ -4,15 +4,20 @@
 
 #pragma once
 #include <iostream>
-#include "statements/sql_statement.hpp"
+#include "statements/sql_statement_collection.hpp"
 
 namespace nebula {
     class Parser {
-      public:
-        Parser() = default;
+    public:
+        Parser();
+
         virtual ~Parser() = default;
 
-        virtual void parse(const std::string& input) = 0;
-        std::vector<std::unique_ptr<SQLStatement>> statements;
+        virtual bool parse(const std::string &input);
+
+        std::unique_ptr<SQLStatementCollection> statements_collection = std::make_unique<
+            SQLStatementCollection>();
+
+        virtual void PrintStatements();
     };
 }

@@ -1,17 +1,22 @@
+#include <nebula/parser/nebula_parser.hpp>
+#include <nebula/parser/statements/select_statement.hpp>
 #include "postgres_parser.hpp"
-
-#include <iostream>
-
-#include "../parser/statements/includes/select_statement.h"
 
 using namespace pg_parser;
 
 int main() {
+	const std::string query = "SELECT *, abc, xyz, edf FROM nebula_data, nebula_data2";
+	std::cout << "Query: " << query << std::endl;
 
-	PostgresParser parser;
+	nebula::Parser parser;
+	const bool query_parsed = parser.parse(query);
 
-	SelectStatement::Parse("");
+	std::cout << "Query Parsed: " << query_parsed << std::endl;
 
-	parser.Parse("SELECT * FROM t1;");
-	std::cout << parser.success << std::endl;
+	parser.PrintStatements();
+
+	std::cout << "=====Stream Queries=====" << std::endl << std::endl;
+	for (const auto &stmt: parser.statements_collection->statements) {
+		std::cout << stmt->ToStreamQuery() << std::endl;
+	}
 }
