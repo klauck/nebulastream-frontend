@@ -1,6 +1,7 @@
 #include <nebula/parser/nebula_parser.hpp>
 #include <nebula/parser/statements/select_statement.hpp>
 #include "postgres_parser.hpp"
+#include <string>
 
 using namespace pg_parser;
 

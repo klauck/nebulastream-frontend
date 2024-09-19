@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include "sql_statement.hpp"
+#include <vector>
 
 namespace nebula {
     class SQLStatementCollection {

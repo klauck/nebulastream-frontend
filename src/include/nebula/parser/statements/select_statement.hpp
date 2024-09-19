@@ -4,6 +4,7 @@
 #pragma once
 #include <string>
 #include "sql_statement.hpp"
+#include <vector>
 
 namespace nebula {
     class SelectStatement : public SQLStatement {
