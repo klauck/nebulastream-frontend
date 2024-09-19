@@ -106,17 +106,17 @@ static T &PGCast(duckdb_libpgquery::PGNode &node) {
 }
 
 static list<string> ParseColumnRef(duckdb_libpgquery::PGColumnRef &ref) {
-    auto head_node = static_cast<duckdb_libpgquery::PGNode*>(ref.fields->head->data.ptr_value);
+    auto head_node = static_cast<duckdb_libpgquery::PGNode *>(ref.fields->head->data.ptr_value);
 
     std::list<string> column_names;
 
-    if(head_node->type == duckdb_libpgquery::T_PGString) {
+    if (head_node->type == duckdb_libpgquery::T_PGString) {
         for (auto node = ref.fields->head; node; node = node->next) {
-            auto value = static_cast<duckdb_libpgquery::PGValue*>(node->data.ptr_value);
+            auto value = static_cast<duckdb_libpgquery::PGValue *>(node->data.ptr_value);
             column_names.emplace_back(value->val.str);
         }
-    }else {
-        if(PRINT_LOGS)
+    } else {
+        if (PRINT_LOGS)
             cout << "Unknown column reference" << endl;
     }
 
@@ -131,7 +131,7 @@ static list<string> ParseColumn(duckdb_libpgquery::PGNode &node) {
     switch (node.type) {
         //if the target type is response target
         case duckdb_libpgquery::T_PGResTarget: {
-            if(PRINT_LOGS)
+            if (PRINT_LOGS)
                 cout << "Column is PGResTarget" << endl;
             const auto target = PGCast<duckdb_libpgquery::PGResTarget>(node);
             return ParseColumn(*target.val);
@@ -139,7 +139,7 @@ static list<string> ParseColumn(duckdb_libpgquery::PGNode &node) {
 
         //if the node type is column reference
         case duckdb_libpgquery::T_PGColumnRef: {
-            if(PRINT_LOGS)
+            if (PRINT_LOGS)
                 cout << "Column is PGColumnRef" << endl;
             auto column_ref = PGCast<duckdb_libpgquery::PGColumnRef>(node);
             return ParseColumnRef(column_ref);
@@ -147,7 +147,7 @@ static list<string> ParseColumn(duckdb_libpgquery::PGNode &node) {
 
         // if the node is a *
         case duckdb_libpgquery::T_PGAStar: {
-            if(PRINT_LOGS)
+            if (PRINT_LOGS)
                 cout << "Column is PGAStar" << endl;
             auto st = PGCast<duckdb_libpgquery::PGAStar>(node);
             return ParseStarRef(st);
@@ -168,7 +168,7 @@ static std::list<string> ParseColumns(const duckdb_libpgquery::PGList &list) {
         //parse single column
         auto new_columns = ParseColumn(*target);
 
-        for(const auto& c: new_columns) {
+        for (const auto &c: new_columns) {
             columns.emplace_back(c);
         }
     }
@@ -187,7 +187,6 @@ static int ParsePGStatement(duckdb_libpgquery::PGNode *node) {
 
             //check if there is no union, intercept, etc in the statement
             if (cs.op == duckdb_libpgquery::PG_SETOP_NONE) {
-
                 //getting from table clause
                 const auto &from = cs.fromClause;
 
@@ -224,7 +223,7 @@ static int ParsePGStatement(duckdb_libpgquery::PGNode *node) {
                     //parse all select columns
                     auto columns = ParseColumns(*targetList);
                     cout << "Columns: ";
-                    for (const auto& col: columns) {
+                    for (const auto &col: columns) {
                         cout << col << ", ";
                     }
                     cout << endl;
@@ -313,7 +312,7 @@ static void DuckDbBinderTest() {
 
     const auto &statements = parser.statements;
 
-    if(statements.empty()) {
+    if (statements.empty()) {
         cout << "Unable to parse statements";
         return;
     }
@@ -322,7 +321,6 @@ static void DuckDbBinderTest() {
 
     context->transaction.BeginTransaction();
     BoundStatement bounded_create_statement = binder->Bind(*create_sql_statement);
-
 }
 #pragma endregion
 
@@ -358,13 +356,13 @@ int PlannerTest(const string &query) {
     parser.ParseQuery(query);
 
     //check if the statements are successfully parsed
-    if(parser.statements.empty()) {
+    if (parser.statements.empty()) {
         cout << "Unable to parse statements";
         return -1;
     }
 
     //create plan for each statement
-    for (auto &statement : parser.statements) {
+    for (auto &statement: parser.statements) {
         cout << "Planning statement: " << statement->ToString() << endl;
         auto stmt = move(statement);
 
@@ -407,7 +405,7 @@ int PlannerTest(const string &query) {
 
         const auto &physical_plan = physical_planner.CreatePlan(move(plan));
 
-        if(physical_plan->type == PhysicalOperatorType::CREATE_TABLE) {
+        if (physical_plan->type == PhysicalOperatorType::CREATE_TABLE) {
             cout << "Create Table" << endl;
             const auto &physical_create_plan = physical_plan->Cast<PhysicalCreateTable>();
             const auto &catalog = physical_create_plan.schema.catalog;
@@ -417,9 +415,8 @@ int PlannerTest(const string &query) {
             // for (const auto &schema: schemas) {
             //
             // }
-
         }
-       // const auto &catalog = physical_plan-
+        // const auto &catalog = physical_plan-
         // auto &result_collector = pysical_plan->Cast<PhysicalResultCollector>();
         //
         // auto res = result_collector.GetResult(*result_collector.sink_state);
@@ -471,11 +468,11 @@ int CatalogTest(const string &query) {
     const auto schemas = catalog.GetSchemas(*context);
     cout << "Schemas: " << endl;
     for (const auto &schema: schemas) {
-        cout << "===" << schema.get().name <<"===" << endl;
+        cout << "===" << schema.get().name << "===" << endl;
         const auto sql = schema.get().ToSQL();
 
         cout << "SQL: " << sql << endl;
-        cout << "===" << "END SCHEMA" << "==="<< endl << endl;
+        cout << "===" << "END SCHEMA" << "===" << endl << endl;
     }
 
 
@@ -485,12 +482,18 @@ int CatalogTest(const string &query) {
 #pragma endregion
 
 int main() {
-    const std::string query = "CREATE TABLE X(abc INT);SELECT abc, def, ghq FROM nebula_data, xyz;update nebula_data set a = 1 where b = 2;";
-    const std::string test_query = "CREATE TABLE employees (id INT, name VARCHAR, department VARCHAR, salary DOUBLE, hire_date DATE, role VARCHAR); INSERT INTO employees VALUES (1, 'Alice', 'HR', 55000, '2020-01-15', 'Admin'), (2, 'Bob', 'Engineering', 70000, '2019-06-12', 'Other'), (3, 'Carol', 'HR', 60000, '2021-03-18', 'Admin'), (4, 'Dave', 'Sales', 48000, '2018-11-24', 'Other');";
-    //ParseUsingDuckDB(query);
+    const std::string query =
+            "CREATE TABLE X(abc INT);SELECT abc, def, ghq FROM nebula_data, xyz;update nebula_data set a = 1 where b = 2;";
+    const std::string test_query =
+            "CREATE TABLE employees (id INT, name VARCHAR, department VARCHAR, salary DOUBLE, hire_date DATE, role VARCHAR); INSERT INTO employees VALUES (1, 'Alice', 'HR', 55000, '2020-01-15', 'Admin'), (2, 'Bob', 'Engineering', 70000, '2019-06-12', 'Other'), (3, 'Carol', 'HR', 60000, '2021-03-18', 'Admin'), (4, 'Dave', 'Sales', 48000, '2018-11-24', 'Other');";
+
+    const std::string test_query_2 =
+            "SELECT DISTINCT e.employee_id AS emp_id, e.first_name AS fname, e.last_name AS lname, d.department_name AS dept_name FROM employees AS e INNER JOIN departments AS d ON e.department_id = d.department_id WHERE d.department_name = 'Sales' ORDER BY e.last_name ASC;";
+
+    ParseUsingDuckDB(test_query_2);
     //ParseUsingPGParser(query);
     //DuckDbBinderTest();
-    PlannerTest(test_query);
+    //PlannerTest(test_query);
     //CatalogTest(test_query);
 
     return 0;
