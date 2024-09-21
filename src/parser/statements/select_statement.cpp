@@ -10,32 +10,37 @@ namespace nebula {
         std::cout << "=====Select Statement=====" << std::endl;
         std::cout << "From: ";
 
-        for (const auto &fr: *from) {
-            std::cout << fr << ", ";
-        }
-        std::cout << std::endl << "Columns: ";
-        for (const auto &c: *columns) {
-            std::cout << c << ", ";
-        }
-        std::cout << std::endl;
-        std::cout << "=====END=====" << std::endl << std::endl;
+        // for (const auto &fr: *from) {
+        //     std::cout << fr << ", ";
+        // }
+        // std::cout << std::endl << "Columns: ";
+        // for (const auto &c: *columns) {
+        //     std::cout << c << ", ";
+        // }
+        // std::cout << std::endl;
+        // std::cout << "=====END=====" << std::endl << std::endl;
     }
 
     std::string SelectStatement::ToString() const {
         return std::string("Select");
     }
 
-    std::string SelectStatement::ToStreamQuery() const {
-        if (from->empty()) {
-            return "No From Clause";
-        }
-        //from by , seprated
-        std::string from_joined = "";
-        int count = 0;
-        for (const auto &fr: *from) {
-            from_joined += fr + (from->size() == (++count) ? "" : ",");
-        }
+    bool SelectStatement::VerifyStreamQuery() const {
+        return true;
+    }
 
-        return "Query::from(\"" + from_joined + "\")";
+    std::string SelectStatement::ToStreamQuery() const {
+        // if (from->empty()) {
+        //     return "No From Clause";
+        // }
+        // //from by , seprated
+        // std::string from_joined = "";
+        // int count = 0;
+        // for (const auto &fr: *from) {
+        //     from_joined += fr + (from->size() == (++count) ? "" : ",");
+        // }
+        //
+        // return "Query::from(\"" + from_joined + "\")";
+        return "";
     }
 }

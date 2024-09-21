@@ -5,19 +5,22 @@
 #include <string>
 #include "sql_statement.hpp"
 #include <vector>
+#include "nebula/parser/nodes/select_node.hpp"
+#include <memory>
 
 namespace nebula {
     class SelectStatement : public SQLStatement {
     public:
         static constexpr const StatementType TYPE = StatementType::SELECT_STATEMENT;
 
-        std::unique_ptr<std::vector<std::string> > columns = std::make_unique<std::vector<std::string> >();
-        std::unique_ptr<std::vector<std::string> > from = std::make_unique<std::vector<std::string> >();
+        std::unique_ptr<SelectNode> select_node;
 
         void Print() const override;
 
         std::string ToString() const override;
 
         std::string ToStreamQuery() const override;
+
+        bool VerifyStreamQuery() const override;
     };
 }

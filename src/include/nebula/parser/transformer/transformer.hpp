@@ -30,9 +30,7 @@ namespace nebula {
 
   private:
     virtual std::unique_ptr<SQLStatement> TransformStatement(pgquery::PGNode &node);
-
     virtual std::unique_ptr<SQLStatement> TransformStatementInternal(pgquery::PGNode &node);
-
     virtual std::unique_ptr<SelectStatement> TransformSelectStatement(pgquery::PGSelectStmt &statement);
   };
 }
