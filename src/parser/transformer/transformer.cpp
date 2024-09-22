@@ -26,8 +26,10 @@ namespace nebula {
                 auto result = TransformStatement(*raw_stmt.stmt);
                 return result;
             }
-            case pgquery::T_PGSelectStmt:
-                return TransformSelectStatement(PGCast<pgquery::PGSelectStmt>(node));
+            case pgquery::T_PGSelectStmt: {
+                auto result = TransformSelectStatement(PGCast<pgquery::PGSelectStmt>(node));
+                return result;
+            }
             default: {
                 std::cout << "TransformSelectStatement: unknown type" << std::endl;
                 return nullptr;

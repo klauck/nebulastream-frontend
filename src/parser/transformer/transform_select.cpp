@@ -127,6 +127,7 @@ namespace nebula {
         return std::move(result);
     }
 
+
     std::unique_ptr<SelectStatement> Transformer::TransformSelectStatement(pgquery::PGSelectStmt &statement) {
         std::unique_ptr<SelectStatement> result = std::make_unique<SelectStatement>();
         std::unique_ptr<SelectNode> select_node = std::make_unique<SelectNode>();
@@ -138,6 +139,7 @@ namespace nebula {
             throw NotImplementedException("Select expression not supported");
         }
 
-        return result;
+        result->select_node = std::move(select_node);
+        return std::move(result);
     }
 }

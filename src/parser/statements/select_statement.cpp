@@ -6,6 +6,8 @@
 #include "nebula/parser/statements/select_statement.hpp"
 
 namespace nebula {
+    constexpr const StatementType nebula::SelectStatement::TYPE;
+
     void SelectStatement::Print() const {
         std::cout << "=====Select Statement=====" << std::endl;
         std::cout << "From: ";

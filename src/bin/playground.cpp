@@ -6,7 +6,7 @@
 using namespace pg_parser;
 
 int main() {
-	const std::string query = "SELECT x.abc, xyz, edf FROM nebula_data";
+	const std::string query = "SELECT a FROM test";
 	std::cout << "Query: " << query << std::endl;
 
 	nebula::Parser parser;
