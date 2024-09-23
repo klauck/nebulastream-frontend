@@ -10,8 +10,8 @@
 #include <nebula/parser/expressions/comparison_expression.hpp>
 #include <nebula/parser/expressions/constant_expression.hpp>
 
-std::string query = "SELECT id FROM user_data WHERE id = 2";
-nebula::Parser parser;
+std::string query_with_int = "SELECT id FROM user_data WHERE id = 2";
+std::string query_with_string = "SELECT id FROM user_data WHERE id = '2'";
 
 void VERIFY_PRE_STEPS(std::vector<std::unique_ptr<nebula::SQLStatement> > &statements) {
     //check the size of parsed statement
@@ -47,10 +47,14 @@ void VERIFY_PRE_STEPS(std::vector<std::unique_ptr<nebula::SQLStatement> > &state
     ASSERT_EQ(comparison_expression->left->type, nebula::ExpressionType::COLUMN_REF);
     auto column_ref = dynamic_cast<nebula::ColumnExpression *>(comparison_expression->left.get());
     ASSERT_EQ(column_ref->column_names[0], "id");
+
+    //make sure the  right side is type of constant value
+    ASSERT_EQ(comparison_expression->right->type, nebula::ExpressionType::VALUE_CONSTANT);
 }
 
 TEST(PARSER_TEST, SELECT_WHERE_SIMPLE_QUERY_INT) {
-    parser.parse(query);
+    nebula::Parser parser;
+    parser.parse(query_with_int);
 
     //getting statements
     auto &statements = parser.statements_collection->statements;
@@ -62,11 +66,36 @@ TEST(PARSER_TEST, SELECT_WHERE_SIMPLE_QUERY_INT) {
     auto &where_expression = select_statement->select_node->where_clause;
     auto comparison_expression = dynamic_cast<nebula::ComparisonExpression *>(where_expression.get());
 
-    //make sure the  right side is type of constant value
-    ASSERT_EQ(comparison_expression->right->type, nebula::ExpressionType::VALUE_CONSTANT);
+    //down casting right side of (id = 1) to const expression
+    const auto const_val = dynamic_cast<nebula::ConstantExpression *>(comparison_expression->right.get());
+
+    //make sure the value type is integer
+    ASSERT_EQ(const_val->value.getType(), nebula::Value::Type::Int32);
+
+    //make sure the value is equal to 2
+    ASSERT_EQ(const_val->value, 2);
+}
+
+TEST(PARSER_TEST, SELECT_WHERE_SIMPLE_QUERY_STRING) {
+    nebula::Parser parser;
+    parser.parse(query_with_string);
+
+    //getting statements
+    auto &statements = parser.statements_collection->statements;
+
+    //verify common pre steps
+    VERIFY_PRE_STEPS(statements);
+
+    const auto select_statement = dynamic_cast<nebula::SelectStatement *>(statements[0].get());
+    auto &where_expression = select_statement->select_node->where_clause;
+    auto comparison_expression = dynamic_cast<nebula::ComparisonExpression *>(where_expression.get());
 
     //down casting right side of (id = 1) to const expression
     const auto const_val = dynamic_cast<nebula::ConstantExpression *>(comparison_expression->right.get());
 
-    ASSERT_EQ(const_val->value, 2);
+    //make sure the value type is string
+    ASSERT_EQ(const_val->value.getType(), nebula::Value::Type::String);
+
+    //make sure the value is equal to '2'
+    ASSERT_EQ(const_val->value, "2");
 }
