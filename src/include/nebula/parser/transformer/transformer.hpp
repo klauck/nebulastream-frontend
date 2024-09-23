@@ -30,7 +30,34 @@ namespace nebula {
 
   private:
     virtual std::unique_ptr<SQLStatement> TransformStatement(pgquery::PGNode &node);
+
     virtual std::unique_ptr<SQLStatement> TransformStatementInternal(pgquery::PGNode &node);
+
     virtual std::unique_ptr<SelectStatement> TransformSelectStatement(pgquery::PGSelectStmt &statement);
+
+    virtual std::unique_ptr<ParsedExpression> TransformExpression(pgquery::PGNode &node);
+
+    virtual std::unique_ptr<ParsedExpression> TransformAExpression(pgquery::PGAExpr &root);
+
+    virtual std::unique_ptr<ParsedExpression> TransformColumnRef(pgquery::PGColumnRef &root);
+
+    virtual std::unique_ptr<ParsedExpression> TransformResTarget(pgquery::PGResTarget &root);
+
+    virtual std::vector<std::unique_ptr<ParsedExpression> > TransformExpressionList(pgquery::PGList &list);
+
+    virtual std::unique_ptr<ParsedExpression> TransformConstant(pgquery::PGAConst &con);
+
+    virtual std::unique_ptr<ParsedExpression> TransformBinaryOperator(std::string &op,
+                                                                      std::unique_ptr<ParsedExpression> left,
+                                                                      std::unique_ptr<ParsedExpression> right);
+
+    //===== transform from clause functions
+    virtual std::unique_ptr<TableRef> TransformRangeVar(pgquery::PGRangeVar *range);
+
+    virtual std::unique_ptr<TableRef> TransformTableRefNode(pgquery::PGNode *node);
+
+    virtual std::unique_ptr<TableRef> TransformFromClause(pgquery::PGList *from);
+
+    //end transform from clause functions =====
   };
 }

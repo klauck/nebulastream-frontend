@@ -7,7 +7,7 @@
 namespace nebula {
     class ColumnExpression : public ParsedExpression {
     public:
-        ColumnExpression() = default;
+        ColumnExpression();
 
         //! Specify both the column and table name
         ColumnExpression(std::string column_name, std::string table_name);

@@ -7,7 +7,9 @@
 namespace nebula {
     class BaseExpression {
     public:
-        BaseExpression() = default;
+        BaseExpression(ExpressionType type, ExpressionClass expression_class)
+            : type(type), expression_class(expression_class) {
+        }
 
         virtual ~BaseExpression() = default;
 

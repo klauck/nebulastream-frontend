@@ -9,7 +9,7 @@
 namespace nebula {
     class StarExpression : public ParsedExpression {
     public:
-        StarExpression() = default;
+        StarExpression();
 
         static constexpr const ExpressionClass TYPE = ExpressionClass::STAR;
 

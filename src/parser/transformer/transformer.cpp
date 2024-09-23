@@ -7,8 +7,10 @@
 
 namespace nebula {
     bool Transformer::TransformParseTree(pgquery::PGList *tree, std::unique_ptr<SQLStatementCollection> &collection) {
+        //iterate through all statements
         for (auto entry = tree->head; entry != nullptr; entry = entry->next) {
             auto n = static_cast<pgquery::PGNode *>(entry->data.ptr_value);
+            //parse each statement into sparate class
             auto stmt = TransformStatement(*n);
             collection->add_statement(stmt);
         }
@@ -23,12 +25,10 @@ namespace nebula {
         switch (node.type) {
             case pgquery::T_PGRawStmt: {
                 auto &raw_stmt = PGCast<pgquery::PGRawStmt>(node);
-                auto result = TransformStatement(*raw_stmt.stmt);
-                return result;
+                return TransformStatement(*raw_stmt.stmt);
             }
             case pgquery::T_PGSelectStmt: {
-                auto result = TransformSelectStatement(PGCast<pgquery::PGSelectStmt>(node));
-                return result;
+                return TransformSelectStatement(PGCast<pgquery::PGSelectStmt>(node));
             }
             default: {
                 std::cout << "TransformSelectStatement: unknown type" << std::endl;

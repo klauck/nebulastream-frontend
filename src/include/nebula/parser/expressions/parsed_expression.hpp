@@ -5,7 +5,9 @@
 namespace nebula {
     class ParsedExpression : public BaseExpression {
     public:
-        ParsedExpression() = default;
+        ParsedExpression(ExpressionType type,
+                         ExpressionClass expression_class) : BaseExpression(type, expression_class) {
+        }
 
         virtual ~ParsedExpression() = default;
 

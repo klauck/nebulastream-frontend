@@ -1,3 +1,4 @@
+#pragma once
 namespace nebula {
      enum class ExpressionType : short {
           INVALID = 0,
@@ -132,6 +133,7 @@ namespace nebula {
           BOUND_LAMBDA_REF = 233,
           BOUND_EXPANDED = 234
      };
+
      enum class ExpressionClass : short {
           INVALID = 0,
           //===--------------------------------------------------------------------===//
@@ -183,4 +185,21 @@ namespace nebula {
           BOUND_EXPRESSION = 50,
           BOUND_EXPANDED = 51
      };
+
+     inline ExpressionType OperatorToExpressionType(const std::string &op) {
+          if (op == "=" || op == "==") {
+               return ExpressionType::COMPARE_EQUAL;
+          } else if (op == "!=" || op == "<>") {
+               return ExpressionType::COMPARE_NOTEQUAL;
+          } else if (op == "<") {
+               return ExpressionType::COMPARE_LESSTHAN;
+          } else if (op == ">") {
+               return ExpressionType::COMPARE_GREATERTHAN;
+          } else if (op == "<=") {
+               return ExpressionType::COMPARE_LESSTHANOREQUALTO;
+          } else if (op == ">=") {
+               return ExpressionType::COMPARE_GREATERTHANOREQUALTO;
+          }
+          return ExpressionType::INVALID;
+     }
 }
