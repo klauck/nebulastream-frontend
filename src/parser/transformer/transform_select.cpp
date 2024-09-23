@@ -24,8 +24,8 @@ namespace nebula {
 
         if (statement.op == pgquery::PG_SETOP_NONE) {
             select_node->from_table = TransformFromClause(statement.fromClause);
-            select_node->select_list = TransformExpressionList(*statement.targetList);
-            select_node->where_clause = TransformExpression(*statement.whereClause);
+            select_node->select_list = TransformExpressionList(statement.targetList);
+            select_node->where_clause = TransformExpression(statement.whereClause);
         } else {
             throw NotImplementedException("Select expression not supported");
         }

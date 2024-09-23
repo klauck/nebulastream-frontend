@@ -12,8 +12,8 @@ namespace nebula {
         auto pg_val = static_cast<pgquery::PGValue *>(root.name->head->data.ptr_value);
         auto name = std::string(pg_val->val.str);
         //FIXME: Implement other types of expressions
-        auto le = TransformExpression(*root.lexpr);
-        auto re = TransformExpression(*root.rexpr);
+        auto le = TransformExpression(root.lexpr);
+        auto re = TransformExpression(root.rexpr);
 
         return TransformBinaryOperator(name, std::move(le), std::move(re));
     }

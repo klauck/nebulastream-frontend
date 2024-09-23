@@ -29,21 +29,21 @@ namespace nebula {
     }
 
   private:
-    virtual std::unique_ptr<SQLStatement> TransformStatement(pgquery::PGNode &node);
+    virtual std::unique_ptr<SQLStatement> TransformStatement(pgquery::PGNode *node);
 
-    virtual std::unique_ptr<SQLStatement> TransformStatementInternal(pgquery::PGNode &node);
+    virtual std::unique_ptr<SQLStatement> TransformStatementInternal(pgquery::PGNode *node);
 
     virtual std::unique_ptr<SelectStatement> TransformSelectStatement(pgquery::PGSelectStmt &statement);
 
-    virtual std::unique_ptr<ParsedExpression> TransformExpression(pgquery::PGNode &node);
+    virtual std::unique_ptr<ParsedExpression> TransformExpression(pgquery::PGNode *node);
 
     virtual std::unique_ptr<ParsedExpression> TransformAExpression(pgquery::PGAExpr &root);
 
     virtual std::unique_ptr<ParsedExpression> TransformColumnRef(pgquery::PGColumnRef &root);
 
-    virtual std::unique_ptr<ParsedExpression> TransformResTarget(pgquery::PGResTarget &root);
+    virtual std::unique_ptr<ParsedExpression> TransformResTarget(pgquery::PGResTarget &target);
 
-    virtual std::vector<std::unique_ptr<ParsedExpression> > TransformExpressionList(pgquery::PGList &list);
+    virtual std::vector<std::unique_ptr<ParsedExpression> > TransformExpressionList(pgquery::PGList *list);
 
     virtual std::unique_ptr<ParsedExpression> TransformConstant(pgquery::PGAConst &con);
 
