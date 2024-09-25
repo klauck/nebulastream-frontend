@@ -15,7 +15,7 @@ namespace nebula {
 
         virtual std::string ToString() = 0;
 
-        std::unique_ptr<std::string> alias;
+        std::string alias;
 
         ExpressionType type;
         ExpressionClass expression_class;

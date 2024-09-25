@@ -9,7 +9,17 @@
 //
 namespace nebula {
     std::unique_ptr<ParsedExpression> Transformer::TransformResTarget(pgquery::PGResTarget &root) {
-        return Transformer::TransformExpression(root.val);
+        auto expr = Transformer::TransformExpression(root.val);
+
+        if (expr == nullptr) {
+            return expr;
+        }
+
+        if (root.name) {
+            expr->alias = std::string(root.name);
+        }
+
+        return expr;
     }
 
     //an expression list can be a list of expressions like select columns clause E.g select a, b, c from tab
