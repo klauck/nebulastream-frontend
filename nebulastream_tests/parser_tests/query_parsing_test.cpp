@@ -29,12 +29,6 @@ std::vector<std::string> read_file(const std::string &filename) {
 }
 
 TEST(PARSER_TEST, QUERY_PARSING_TEST) {
-    char cwd[1024];
-    if (getcwd(cwd, sizeof(cwd)) != NULL) {
-        std::cout << "Current working directory: " << cwd << std::endl;
-    } else {
-        std::cerr << "Error getting current directory" << std::endl;
-    }
     //read queries from file
     const auto queries = read_file("./queries.sql");
 
