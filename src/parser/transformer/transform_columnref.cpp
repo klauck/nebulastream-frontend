@@ -8,6 +8,8 @@
 #include <nebula/parser/expressions/parsed_expression.hpp>
 #include <parser/gramparse.hpp>
 #include <nebula/parser/transformer/transformer.hpp>
+#include <string>
+#include <vector>
 
 namespace nebula {
     std::unique_ptr<ParsedExpression> Transformer::TransformColumnRef(pgquery::PGColumnRef &ref) {

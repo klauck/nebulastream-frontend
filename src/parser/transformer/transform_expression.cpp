@@ -1,6 +1,7 @@
 #include <nebula/common/exception.hpp>
 #include <nebula/parser/expressions/star_expression.hpp>
 #include <nebula/parser/transformer/transformer.hpp>
+#include <string>
 #include <vector>
 #include <memory>
 

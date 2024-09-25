@@ -4,6 +4,9 @@
 
 #include <iostream>
 #include <nebula/parser/statements/statement_type.hpp>
+#include <string>
+#include <vector>
+#include <memory>
 
 namespace nebula {
     std::string StatementReturnTypeToString(StatementType type) {

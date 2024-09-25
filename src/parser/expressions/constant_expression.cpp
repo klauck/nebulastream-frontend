@@ -3,6 +3,8 @@
 //
 
 #include <nebula/parser/expressions/constant_expression.hpp>
+#include <string>
+#include <vector>
 #include <memory>
 
 namespace nebula {

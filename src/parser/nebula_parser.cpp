@@ -5,6 +5,9 @@
 #include "nebula/parser/nebula_parser.hpp"
 #include <postgres_parser.hpp>
 #include <nebula/parser/transformer/transformer.hpp>
+#include <string>
+#include <vector>
+#include <memory>
 
 namespace nebula {
     bool Parser::parse(const std::string &input) {

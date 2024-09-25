@@ -3,6 +3,9 @@
 //
 
 #include<iostream>
+#include <string>
+#include <vector>
+#include <memory>
 #include "nebula/parser/transformer/transformer.hpp"
 
 namespace nebula {

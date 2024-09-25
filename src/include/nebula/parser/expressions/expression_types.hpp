@@ -1,4 +1,6 @@
 #pragma once
+#include <string>
+
 namespace nebula {
      enum class ExpressionType : short {
           INVALID = 0,

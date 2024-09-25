@@ -3,6 +3,7 @@
 #include<string>
 #include "statement_type.hpp"
 
+
 namespace nebula {
     //base class for all types of sql statements
     class SQLStatement {

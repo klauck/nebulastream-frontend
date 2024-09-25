@@ -3,6 +3,8 @@
 //
 
 #include <nebula/parser/transformer/transformer.hpp>
+#include <string>
+#include <vector>
 #include <memory>
 #include <nebula/common/exception.hpp>
 #include <nebula/parser/expressions/comparison_expression.hpp>

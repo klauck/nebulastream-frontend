@@ -2,6 +2,8 @@
 // Created by Usama Bin Tariq on 23.09.24.
 //
 
+#include <string>
+#include <vector>
 #include <memory>
 #include <nebula/common/exception.hpp>
 #include <nebula/parser/refs/table_ref.hpp>

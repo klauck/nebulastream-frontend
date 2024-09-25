@@ -4,6 +4,9 @@
 
 #include <iostream>
 #include "nebula/parser/statements/select_statement.hpp"
+#include <string>
+#include <vector>
+#include <memory>
 
 namespace nebula {
     constexpr const StatementType nebula::SelectStatement::TYPE;

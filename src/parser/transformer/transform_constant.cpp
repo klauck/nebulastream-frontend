@@ -3,9 +3,10 @@
 //
 
 #include <nebula/parser/transformer/transformer.hpp>
-#include <memory>
 #include <nebula/parser/expressions/constant_expression.hpp>
 #include <string>
+#include <vector>
+#include <memory>
 
 namespace nebula {
     std::unique_ptr<ParsedExpression> Transformer::TransformConstant(pgquery::PGAConst &con) {

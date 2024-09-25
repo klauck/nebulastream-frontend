@@ -6,6 +6,9 @@
 #include <nebula/parser/statements/select_statement.hpp>
 #include <nebula/parser/statements/sql_statement_collection.hpp>
 #include <parser/gramparse.hpp>
+#include <string>
+#include <vector>
+#include <memory>
 
 namespace nebula {
   class Transformer {

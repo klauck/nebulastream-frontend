@@ -2,6 +2,9 @@
 // Created by Usama Bin Tariq on 23.09.24.
 //
 #include <nebula/parser/expressions/comparison_expression.hpp>
+#include <string>
+#include <vector>
+#include <memory>
 
 namespace nebula {
     //constructor init, assign left and right operator

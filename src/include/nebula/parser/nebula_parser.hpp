@@ -5,6 +5,9 @@
 #pragma once
 #include <iostream>
 #include "statements/sql_statement_collection.hpp"
+#include <string>
+#include <vector>
+#include <memory>
 
 namespace nebula {
     class Parser {

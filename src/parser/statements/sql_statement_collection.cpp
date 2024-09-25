@@ -3,6 +3,9 @@
 //
 #include <iostream>
 #include "nebula/parser/statements/sql_statement_collection.hpp"
+#include <string>
+#include <vector>
+#include <memory>
 
 namespace nebula {
     void SQLStatementCollection::Print() {

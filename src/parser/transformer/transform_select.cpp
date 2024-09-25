@@ -3,19 +3,10 @@
 //
 
 #include <nebula/parser/transformer/transformer.hpp>
-#include <iostream>
-#include <nebula/common/exception.hpp>
-#include <nebula/parser/refs/table_ref.hpp>
-#include <nebula/parser/refs/base_table_ref.hpp>
-#include <nebula/parser/expressions/star_expression.hpp>
-#include <nebula/parser/refs/table_ref_type.hpp>
+#include <string>
+#include <vector>
 #include <memory>
-#include <nebula/parser/transformer/transformer.hpp>
-#include<string>
-#include <nebula/parser/expressions/column_expression.hpp>
-
-#include "../../libraries/pg_query/include/nodes/primnodes.hpp"
-#include "../../libraries/pg_query/include/nodes/value.hpp"
+#include <nebula/common/exception.hpp>
 
 namespace nebula {
     std::unique_ptr<SelectStatement> Transformer::TransformSelectStatement(pgquery::PGSelectStmt &statement) {

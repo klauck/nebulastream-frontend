@@ -2,6 +2,7 @@
 // Created by Usama Bin Tariq on 18.09.24.
 //
 #pragma once
+#include <string>
 
 namespace nebula {
     enum class StatementType : short {

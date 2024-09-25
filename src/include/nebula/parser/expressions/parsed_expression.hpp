@@ -1,6 +1,7 @@
 #pragma once
 
 #include "base_expression.hpp"
+#include <string>
 
 namespace nebula {
     class ParsedExpression : public BaseExpression {
