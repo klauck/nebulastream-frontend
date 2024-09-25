@@ -2,3 +2,4 @@
 build
 cmake-build-debug
 new_build
+.DS_Store
