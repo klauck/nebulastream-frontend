@@ -14,3 +14,4 @@ add_subdirectory(nebulastream_tests)
 add_executable(playground src/bin/playground.cpp)
 
 target_link_libraries(playground nebula_parser)
+target_link_libraries(playground pg_query)
