@@ -5,7 +5,7 @@
 
 
 int main() {
-	const std::string query = "SELECT a as b FROM test where x = 2";
+	const std::string query = "SELECT a as b FROM test where x = 2 or y = 3";
 	std::cout << "Query: " << query << std::endl;
 
 	nebula::Parser parser;
@@ -14,12 +14,4 @@ int main() {
 	std::cout << "Query Parsed: " << query_parsed << std::endl;
 
 	parser.PrintStatements();
-
-	std::cout << "=====Stream Queries=====" << std::endl << std::endl;
-	for (const auto &stmt: parser.statements_collection->statements) {
-		std::cout << stmt->ToStreamQuery() << std::endl;
-	}
-
-    pg_parser::PostgresParser parser2;
-    parser2.Parse("SELECT a as b FROM test where x = 2");
 }

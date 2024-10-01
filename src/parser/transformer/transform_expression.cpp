@@ -58,6 +58,9 @@ namespace nebula {
             }
             case pgquery::T_PGAConst:
                 return TransformConstant(PGCast<pgquery::PGAConst>(*node));
+            //if the expression is boolean expression like a = 2 or y = 3 or not a = b
+            case pgquery::T_PGBoolExpr:
+                return TransformBool(PGCast<pgquery::PGBoolExpr>(*node));
             default:
                 throw NotImplementedException("Transform expression is not implemented");
         }
