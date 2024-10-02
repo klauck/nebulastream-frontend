@@ -35,8 +35,22 @@ std::unique_ptr<nebula::ParsedExpression> nebula::Transformer::TransformBool(pgq
                 break;
             }
             default: throw NotImplementedException("This type of expression is not implemented.");
-
-            //FIXME: Add NOT Case
+            case pgquery::PG_NOT_EXPR: {
+                if (next->type == ExpressionType::COMPARE_IN) {
+                    // convert COMPARE_IN to COMPARE_NOT_IN, e.g not x in (1, 2, 3)
+                    next->type = ExpressionType::COMPARE_NOT_IN;
+                    result = std::move(next);
+                } else if (next->type >= ExpressionType::COMPARE_EQUAL &&
+                           next->type <= ExpressionType::COMPARE_GREATERTHANOREQUALTO) {
+                    // NOT on a comparison: we can negate the comparison
+                    // e.g. NOT(x > y) is equivalent to x <= y
+                    next->type = NegateComparisonExpression(next->type);
+                    result = std::move(next);
+                } else {
+                    //FIXME: Transform operator expression type
+                }
+                break;
+            }
         }
     }
 
