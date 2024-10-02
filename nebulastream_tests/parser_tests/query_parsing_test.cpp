@@ -9,28 +9,11 @@
 #include "gtest/gtest.h"
 #include <nebula/parser/nebula_parser.hpp>
 #include <unistd.h>
-
-std::vector<std::string> read_file(const std::string &filename) {
-    std::vector<std::string> lines;
-    std::ifstream file(filename);
-
-    if (!file.is_open()) {
-        std::cerr << "Error: Could not open the file." << std::endl;
-        return lines;
-    }
-
-    std::string line;
-    while (std::getline(file, line)) {
-        lines.push_back(line);
-    }
-
-    file.close();
-    return lines;
-}
+#include "helpers/helper_functions.hpp"
 
 TEST(PARSER_TEST, QUERY_PARSING_TEST) {
     //read queries from file
-    const auto queries = read_file("./queries.sql");
+    const auto queries = nebula_tests::read_file("./queries.sql");
 
     nebula::Parser parser;
     int total_parsed_queries = 0;
