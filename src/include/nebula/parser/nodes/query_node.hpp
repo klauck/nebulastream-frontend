@@ -1,4 +1,7 @@
 #pragma once
+#include <vector>
+#include <memory>
+#include "nebula/parser/modifiers/result_modifier.hpp"
 
 namespace nebula {
     enum class QueryNodeType : short {
@@ -11,10 +14,10 @@ namespace nebula {
 
     class QueryNode {
         public:
-            explicit QueryNode(QueryNodeType type) : type(type) {
-            }
-            virtual ~QueryNode() {
-            }
+            explicit QueryNode(QueryNodeType type) : type(type) {}
+            virtual ~QueryNode() {}
+
+            std::vector<std::unique_ptr<nebula::ResultModifier>> modifiers;
 
             QueryNodeType type;
     };

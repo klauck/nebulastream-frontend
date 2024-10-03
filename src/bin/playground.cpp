@@ -5,7 +5,7 @@
 
 
 int main() {
-	const std::string query = "SELECT a as b FROM test where not x < 2";
+	const std::string query = "SELECT a as b FROM test where not x < 2 limit 2 offset 3";
 	std::cout << "Query: " << query << std::endl;
 
 	nebula::Parser parser;
