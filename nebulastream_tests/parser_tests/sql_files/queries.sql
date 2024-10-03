@@ -5,3 +5,4 @@ select u.id, u.name from users --query with column specific table selection
 select first_name as name from users --select query with column alias
 select first_name as name from users where id = 1 --select query with where clause integer comparison
 select first_name as name from users where first_name = 'stefan' --select query with where clause string comparison
+select name from users where name = 'stefan' limit 10 offset 10 -- select query with limit
