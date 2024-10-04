@@ -13,12 +13,23 @@ namespace nebula {
     };
 
     class QueryNode {
-        public:
-            explicit QueryNode(QueryNodeType type) : type(type) {}
-            virtual ~QueryNode() {}
+    public:
+        explicit QueryNode(QueryNodeType type) : type(type) {
+        }
 
-            std::vector<std::unique_ptr<nebula::ResultModifier>> modifiers;
+        virtual ~QueryNode() {
+        }
 
-            QueryNodeType type;
+        std::vector<std::unique_ptr<nebula::ResultModifier> > modifiers;
+
+        QueryNodeType type;
+
+        template<class TARGET>
+        inline TARGET &Cast() {
+            if (type != TARGET::TYPE) {
+                throw InvalidOperationException("Failed to cast query node to type - query node type mismatch");
+            }
+            return reinterpret_cast<TARGET &>(*this);
+        }
     };
 }

@@ -58,6 +58,8 @@ namespace nebula {
 
     virtual void TransformResultModifiers(pgquery::PGSelectStmt &root, nebula::QueryNode &node);
 
+    std::unique_ptr<QueryNode> TransformSelectNode(pgquery::PGSelectStmt &statement);
+
     //===== transform from clause functions
     virtual std::unique_ptr<TableRef> TransformRangeVar(pgquery::PGRangeVar *range);
 
