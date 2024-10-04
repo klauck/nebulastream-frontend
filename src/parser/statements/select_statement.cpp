@@ -11,6 +11,9 @@
 namespace nebula {
     constexpr const StatementType nebula::SelectStatement::TYPE;
 
+    SelectStatement::SelectStatement() : SQLStatement(StatementType::SELECT_STATEMENT) {
+    }
+
     void SelectStatement::Print() const {
         std::cout << "=====Select Statement=====" << std::endl;
         std::cout << "From: ";

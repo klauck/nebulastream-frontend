@@ -6,3 +6,4 @@ select first_name as name from users --select query with column alias
 select first_name as name from users where id = 1 --select query with where clause integer comparison
 select first_name as name from users where first_name = 'stefan' --select query with where clause string comparison
 select name from users where name = 'stefan' limit 10 offset 10 -- select query with limit
+SELECT * FROM t1 UNION SELECT * FROM t2 col1; -- union query

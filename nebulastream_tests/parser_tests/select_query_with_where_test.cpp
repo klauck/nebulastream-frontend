@@ -25,13 +25,19 @@ void VERIFY_PRE_STEPS(std::vector<std::unique_ptr<nebula::SQLStatement> > &state
     //check if the type of the sql statement is select statement
     ASSERT_EQ(select_statement->TYPE, nebula::StatementType::SELECT_STATEMENT);
 
+    // check if the query node is of type select node
+    ASSERT_EQ(select_statement->node->type, nebula::QueryNodeType::SELECT_NODE);
+
+    //down casting the query node to select node
+    auto select_node = dynamic_cast<nebula::SelectNode *>(select_statement->node.get());
+
     //check if the table name is same
-    ASSERT_EQ(select_statement->select_node->from_table->table_name, "user_data");
+    ASSERT_EQ(select_node->from_table->table_name, "user_data");
 
     //asserting the size of select columns
-    ASSERT_EQ(select_statement->select_node->select_list.size(), 1);
+    ASSERT_EQ(select_node->select_list.size(), 1);
 
-    std::unique_ptr<nebula::ParsedExpression> &where_expression = select_statement->select_node->where_clause;
+    std::unique_ptr<nebula::ParsedExpression> &where_expression = select_node->where_clause;
 
     //make sure the expression class is type of comparison class
     ASSERT_EQ(where_expression->expression_class, nebula::ExpressionClass::COMPARISON);
@@ -63,7 +69,10 @@ TEST(PARSER_TEST, SELECT_WHERE_SIMPLE_QUERY_INT) {
     VERIFY_PRE_STEPS(statements);
 
     const auto select_statement = dynamic_cast<nebula::SelectStatement *>(statements[0].get());
-    auto &where_expression = select_statement->select_node->where_clause;
+    //down casting the query node to select node
+    auto select_node = dynamic_cast<nebula::SelectNode *>(select_statement->node.get());
+
+    auto &where_expression = select_node->where_clause;
     auto comparison_expression = dynamic_cast<nebula::ComparisonExpression *>(where_expression.get());
 
     //down casting right side of (id = 1) to const expression
@@ -87,7 +96,9 @@ TEST(PARSER_TEST, SELECT_WHERE_SIMPLE_QUERY_STRING) {
     VERIFY_PRE_STEPS(statements);
 
     const auto select_statement = dynamic_cast<nebula::SelectStatement *>(statements[0].get());
-    auto &where_expression = select_statement->select_node->where_clause;
+    //down casting the query node to select node
+    auto select_node = dynamic_cast<nebula::SelectNode *>(select_statement->node.get());
+    auto &where_expression = select_node->where_clause;
     auto comparison_expression = dynamic_cast<nebula::ComparisonExpression *>(where_expression.get());
 
     //down casting right side of (id = 1) to const expression

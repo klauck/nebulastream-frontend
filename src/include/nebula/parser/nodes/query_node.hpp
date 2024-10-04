@@ -2,6 +2,7 @@
 #include <vector>
 #include <memory>
 #include "nebula/parser/modifiers/result_modifier.hpp"
+#include "nebula/common/exception.hpp"
 
 namespace nebula {
     enum class QueryNodeType : short {
@@ -25,9 +26,10 @@ namespace nebula {
         QueryNodeType type;
 
         template<class TARGET>
-        inline TARGET &Cast() {
+        TARGET &Cast() {
             if (type != TARGET::TYPE) {
-                throw InvalidOperationException("Failed to cast query node to type - query node type mismatch");
+                throw InvalidOperationException(
+                    "Failed to cast query node to type - query node type mismatch, ");
             }
             return reinterpret_cast<TARGET &>(*this);
         }

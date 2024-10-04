@@ -11,6 +11,11 @@ namespace nebula {
         //default statement type is invalid statement as this is a base class
         static constexpr const StatementType TYPE = StatementType::INVALID_STATEMENT;
 
+        explicit SQLStatement(StatementType type) : type(type) {
+        }
+
+        StatementType type;
+
         virtual ~SQLStatement() = default;
 
         //convert query to string

@@ -20,9 +20,9 @@ TEST(PARSER_TEST, SELECT_LIMIT_TEST) {
     auto select_statement = dynamic_cast<nebula::SelectStatement *>(statements[0].get());
 
     //make sure the results modifiers length is 1
-    ASSERT_EQ(select_statement->select_node->modifiers.size(), 1);
+    ASSERT_EQ(select_statement->node->modifiers.size(), 1);
 
-    auto &first_modifier = select_statement->select_node->modifiers[0];
+    auto &first_modifier = select_statement->node->modifiers[0];
 
     //assert the type of the modifier
     ASSERT_EQ(first_modifier->type, nebula::ResultModifierType::LIMIT_MODIFIER);

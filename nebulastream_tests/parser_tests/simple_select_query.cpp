@@ -29,9 +29,15 @@ TEST(PARSER_TEST, SIMPLE_SELECT_QUERY) {
     //check if the type of the sql statement is select statement
     ASSERT_EQ(select_statement->TYPE, nebula::StatementType::SELECT_STATEMENT);
 
+    // check if the query node is of type select node
+    ASSERT_EQ(select_statement->node->type, nebula::QueryNodeType::SELECT_NODE);
+
+    //down casting the query node to select node
+    auto select_node = dynamic_cast<nebula::SelectNode *>(select_statement->node.get());
+
     //check if the table name is same
-    ASSERT_EQ(select_statement->select_node->from_table->table_name, "test");
+    ASSERT_EQ(select_node->from_table->table_name, "test");
 
     //asserting the size of select columns
-    ASSERT_EQ(select_statement->select_node->select_list.size(), 1);
+    ASSERT_EQ(select_node->select_list.size(), 1);
 };
