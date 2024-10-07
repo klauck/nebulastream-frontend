@@ -5,7 +5,7 @@
 
 
 int main() {
-	const std::string query = "SELECT * FROM t1 UNION SELECT * FROM t2 col1;";
+	const std::string query = "SELECT * FROM (SELECT * FROM t1)";
 	std::cout << "Query: " << query << std::endl;
 
 	nebula::Parser parser;

@@ -8,6 +8,7 @@
 #include <nebula/common/exception.hpp>
 #include <nebula/parser/refs/table_ref.hpp>
 #include <nebula/parser/transformer/transformer.hpp>
+#include <nebula/parser/refs/sub_query_ref.hpp>
 
 namespace nebula {
     std::unique_ptr<TableRef> Transformer::TransformRangeVar(pgquery::PGRangeVar *range) {
@@ -17,6 +18,22 @@ namespace nebula {
         return std::move(result);
     }
 
+    std::unique_ptr<TableRef> Transformer::TransformSubSelect(pgquery::PGRangeSubselect &root) {
+        Transformer subquery_transformer(*this);
+        pgquery::PGSelectStmt select_stmt = PGCast<pgquery::PGSelectStmt>(*root.subquery);
+        auto subquery = subquery_transformer.TransformSelectStatement(select_stmt);
+        if (!subquery) {
+            return nullptr;
+        }
+        auto result = std::make_unique<SubQueryRef>(std::move(subquery));
+        if (root.alias) {
+            result->alias = root.alias->aliasname;
+        }
+
+        return std::move(result);
+    }
+
+
     std::unique_ptr<TableRef> Transformer::TransformTableRefNode(pgquery::PGNode *node) {
         switch (node->type) {
             case pgquery::T_PGRangeVar: {
@@ -25,8 +42,10 @@ namespace nebula {
             }
             case pgquery::T_PGJoinExpr:
                 throw NotImplementedException("Join expression not supported");
-            case pgquery::T_PGRangeSubselect:
-                throw NotImplementedException("Range subselect not supported");
+            case pgquery::T_PGRangeSubselect: {
+                auto sub_select = PGCast<pgquery::PGRangeSubselect>(*node);
+                return TransformSubSelect(sub_select);
+            }
             case pgquery::T_PGRangeFunction:
                 throw NotImplementedException("Range function not supported");
             case pgquery::T_PGPivotExpr:

@@ -6,6 +6,8 @@ namespace nebula {
     class TableRef : public BaseTableRef {
     public:
         static constexpr const TableReferenceType TYPE = TableReferenceType::INVALID;
+        std::string alias;
+
         virtual ~TableRef() = default;
     };
 }
