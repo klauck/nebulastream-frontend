@@ -8,10 +8,16 @@
 
 namespace nebula {
     class SubQueryRef : public TableRef {
-      public:
+    private:
+        SubQueryRef() : TableRef(TableReferenceType::SUBQUERY) {
+        }
+
+    public:
         static constexpr const TableReferenceType TYPE = TableReferenceType::SUBQUERY;
 
-        explicit SubQueryRef(std::unique_ptr<SelectStatement> subquery) : subquery(std::move(subquery)) {}
+        explicit SubQueryRef(std::unique_ptr<SelectStatement> subquery) : TableRef(TableReferenceType::SUBQUERY),
+                                                                          subquery(std::move(subquery)) {
+        }
 
         std::unique_ptr<SelectStatement> subquery;
     };

@@ -66,9 +66,17 @@ TEST(PARSER_TEST, UNION_QUERY_TEST) {
     ASSERT_TRUE(left_node);
     ASSERT_TRUE(right_node);
 
+    auto &from_table1 = left_node->from_table;
+    ASSERT_EQ(from_table1->type, nebula::TableReferenceType::BASE_TABLE);
+    auto &from_table_ref1 = from_table1->Cast<nebula::BaseTableRef>();
+
+    auto &from_table2 = right_node->from_table;
+    ASSERT_EQ(from_table2->type, nebula::TableReferenceType::BASE_TABLE);
+    auto &from_table_ref2 = from_table2->Cast<nebula::BaseTableRef>();
+
     // verify the table names
-    ASSERT_EQ(left_node->from_table->table_name, "t1");
-    ASSERT_EQ(right_node->from_table->table_name, "t2");
+    ASSERT_EQ(from_table_ref1.table_name, "t1");
+    ASSERT_EQ(from_table_ref2.table_name, "t2");
 
     // verify the column names
     ASSERT_EQ(left_node->select_list.size(), 1);

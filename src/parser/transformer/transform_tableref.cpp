@@ -12,7 +12,7 @@
 
 namespace nebula {
     std::unique_ptr<TableRef> Transformer::TransformRangeVar(pgquery::PGRangeVar *range) {
-        auto result = std::make_unique<TableRef>();
+        auto result = std::make_unique<BaseTableRef>();
         result->table_name = range->relname;
 
         return std::move(result);

@@ -35,8 +35,12 @@ TEST(PARSER_TEST, SIMPLE_SELECT_QUERY) {
     //down casting the query node to select node
     auto select_node = dynamic_cast<nebula::SelectNode *>(select_statement->node.get());
 
+    auto &from_table = select_node->from_table;
+    ASSERT_EQ(from_table->type, nebula::TableReferenceType::BASE_TABLE);
+    auto &from_table_ref = from_table->Cast<nebula::BaseTableRef>();
+
     //check if the table name is same
-    ASSERT_EQ(select_node->from_table->table_name, "test");
+    ASSERT_EQ(from_table_ref.table_name, "test");
 
     //asserting the size of select columns
     ASSERT_EQ(select_node->select_list.size(), 1);

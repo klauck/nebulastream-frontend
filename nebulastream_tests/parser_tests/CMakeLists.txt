@@ -8,7 +8,8 @@ add_executable(parser_tests simple_select_query.cpp
         query_parsing_test.cpp
         select_limit_test.cpp
         union_query_test.cpp
-        postgres_query_parsing_test.cpp)
+        postgres_query_parsing_test.cpp
+        subquery_test.cpp)
 
 target_link_libraries(parser_tests nebula_parser)
 target_link_libraries(parser_tests pg_query)

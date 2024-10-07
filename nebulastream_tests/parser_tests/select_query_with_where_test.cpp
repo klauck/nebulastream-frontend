@@ -23,7 +23,7 @@ void VERIFY_PRE_STEPS(std::vector<std::unique_ptr<nebula::SQLStatement> > &state
     auto select_statement = dynamic_cast<nebula::SelectStatement *>(statements[0].get());
 
     //check if the type of the sql statement is select statement
-    ASSERT_EQ(select_statement->TYPE, nebula::StatementType::SELECT_STATEMENT);
+    ASSERT_EQ(select_statement->type, nebula::StatementType::SELECT_STATEMENT);
 
     // check if the query node is of type select node
     ASSERT_EQ(select_statement->node->type, nebula::QueryNodeType::SELECT_NODE);
@@ -31,8 +31,12 @@ void VERIFY_PRE_STEPS(std::vector<std::unique_ptr<nebula::SQLStatement> > &state
     //down casting the query node to select node
     auto select_node = dynamic_cast<nebula::SelectNode *>(select_statement->node.get());
 
+    auto &from_table = select_node->from_table;
+    ASSERT_EQ(from_table->type, nebula::TableReferenceType::BASE_TABLE);
+    auto &from_table_ref = from_table->Cast<nebula::BaseTableRef>();
+
     //check if the table name is same
-    ASSERT_EQ(select_node->from_table->table_name, "user_data");
+    ASSERT_EQ(from_table_ref.table_name, "user_data");
 
     //asserting the size of select columns
     ASSERT_EQ(select_node->select_list.size(), 1);
