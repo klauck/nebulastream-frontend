@@ -1003,9 +1003,35 @@ values_clause_opt_comma:
  *****************************************************************************/
 
 from_clause:
-			FROM from_list_opt_comma							{ $$ = $2; }
+			FROM win_range_clause from_list_opt_comma 						{ 
+				$$ = lappend($3, $2);
+			}
+			| FROM from_list_opt_comma 										{ $$ = $2; }
 			| /*EMPTY*/								{ $$ = NIL; }
 		;
+
+win_range_clause:
+    '[' RANGE interval_value ']'
+        {
+            $$ = makeWinRangeClause($3);
+        }
+;
+
+interval_value:
+    ICONST time_unit
+        {
+            $$ = makeIntervalConstWithUnit(makeIntConst($1, @1), $2);
+        }
+;
+
+time_unit:
+    YEAR_P | YEARS_P       { $$ = "year"; }
+    | MONTH_P | MONTHS_P   { $$ = "month"; }
+    | DAY_P | DAYS_P       { $$ = "day"; }
+    | HOUR_P | HOURS_P     { $$ = "hour"; }
+    | MINUTE_P | MINUTES_P { $$ = "minute"; }
+    | SECOND_P | SECONDS_P { $$ = "second"; }
+;
 
 from_list:
 			table_ref								{ $$ = list_make1($1); }

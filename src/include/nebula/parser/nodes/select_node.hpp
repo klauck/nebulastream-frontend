@@ -4,6 +4,7 @@
 #include "query_node.hpp"
 #include <vector>
 #include <memory>
+#include "window_range_node.hpp"
 
 
 namespace nebula {
@@ -16,8 +17,9 @@ namespace nebula {
         //! The projection list
         std::vector<std::unique_ptr<ParsedExpression> > select_list;
         //! The FROM clause
-        std::unique_ptr<TableRef> from_table;
+        std::vector<std::unique_ptr<TableRef> > from_tables;
         //! The WHERE clause
         std::unique_ptr<ParsedExpression> where_clause;
+        std::unique_ptr<WindowRangeNode> window_clause;
     };
 }

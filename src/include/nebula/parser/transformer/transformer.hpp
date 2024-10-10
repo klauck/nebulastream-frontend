@@ -67,7 +67,8 @@ namespace nebula {
 
     virtual std::unique_ptr<TableRef> TransformTableRefNode(pgquery::PGNode *node);
 
-    virtual std::unique_ptr<TableRef> TransformFromClause(pgquery::PGList *from);
+    virtual std::vector<std::unique_ptr<TableRef> >
+    TransformFromClause(pgquery::PGList *from, std::unique_ptr<WindowRangeNode> &node);
 
     //end transform from clause functions =====
   };

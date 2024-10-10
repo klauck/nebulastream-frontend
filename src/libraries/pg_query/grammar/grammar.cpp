@@ -741,6 +741,26 @@ parser_init(base_yy_extra_type *yyext)
 	yyext->parsetree = NIL;		/* in case grammar forgets to set it */
 }
 
+static PGNode* 
+makeWinRangeClause(PGNode *intervalValue)
+{
+    PGWinRangeClause *n = makeNode(PGWinRangeClause);
+    n->interval = intervalValue;
+    return  (PGNode*) n;
+}
+
+static PGNode* 
+makeIntervalConstWithUnit(PGNode *value, char *unit)
+{
+    /* Create an interval literal node */
+    IntervalValue *interval = (IntervalValue *) palloc(sizeof(IntervalValue));
+	interval->type = T_PGRangeInterval;
+	interval->unit = unit;
+	interval->value = value;
+
+	return (PGNode *) interval;
+}
+
 #undef yyparse
 #undef yylex
 #undef yyerror
