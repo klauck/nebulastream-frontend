@@ -66,11 +66,11 @@ TEST(PARSER_TEST, UNION_QUERY_TEST) {
     ASSERT_TRUE(left_node);
     ASSERT_TRUE(right_node);
 
-    auto &from_table1 = left_node->from_table;
+    auto &from_table1 = left_node->from_tables[0];
     ASSERT_EQ(from_table1->type, nebula::TableReferenceType::BASE_TABLE);
     auto &from_table_ref1 = from_table1->Cast<nebula::BaseTableRef>();
 
-    auto &from_table2 = right_node->from_table;
+    auto &from_table2 = right_node->from_tables[0];
     ASSERT_EQ(from_table2->type, nebula::TableReferenceType::BASE_TABLE);
     auto &from_table_ref2 = from_table2->Cast<nebula::BaseTableRef>();
 

@@ -31,7 +31,6 @@ std::unique_ptr<nebula::ParsedExpression> nebula::Transformer::TransformBool(pgq
                 }
                 break;
             }
-            default: throw NotImplementedException("This type of expression is not implemented.");
             case pgquery::PG_NOT_EXPR: {
                 if (next->type == ExpressionType::COMPARE_IN) {
                     // convert COMPARE_IN to COMPARE_NOT_IN, e.g not x in (1, 2, 3)

@@ -2,9 +2,9 @@
 
 #pragma once
 #include "parsed_expression.hpp"
-#include<vector>
+#include <vector>
 #include <string>
-#include<memory>
+#include <memory>
 
 //this class represents 'and' and 'or' expressions
 namespace nebula {
