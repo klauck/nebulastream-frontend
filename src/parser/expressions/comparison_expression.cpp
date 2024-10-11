@@ -1,6 +1,5 @@
-//
-// Created by Usama Bin Tariq on 23.09.24.
-//
+//duckdb reference: src/parser/expression/comparison_expression.cpp
+
 #include <nebula/parser/expressions/comparison_expression.hpp>
 #include <string>
 #include <vector>

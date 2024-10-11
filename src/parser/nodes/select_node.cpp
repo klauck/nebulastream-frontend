@@ -1,6 +1,5 @@
-//
-// Created by Usama Bin Tariq on 21.09.24.
-//
+//duckdb reference: src/parser/query_node/select_node.cpp
+
 #include "nebula/parser/nodes/select_node.hpp"
 #include "nebula/parser/nodes/query_node.hpp"
 #include <string>

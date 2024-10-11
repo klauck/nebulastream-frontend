@@ -1,3 +1,5 @@
+//duckdb reference: src/parser/expression/star_expression.cpp
+
 #include <nebula/parser/expressions/star_expression.hpp>
 #include <string>
 #include <vector>

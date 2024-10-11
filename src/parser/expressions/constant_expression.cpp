@@ -1,6 +1,4 @@
-//
-// Created by Usama Bin Tariq on 23.09.24.
-//
+//duckdb reference: src/parser/expression/constant_expression.cpp
 
 #include <nebula/parser/expressions/constant_expression.hpp>
 #include <string>

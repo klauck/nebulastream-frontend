@@ -1,6 +1,4 @@
-//
-// Created by Usama Bin Tariq on 18.09.24.
-//
+//duckdb reference: src/include/duckdb/parser/transformer.hpp
 
 #pragma once
 #include <nebula/parser/statements/select_statement.hpp>
