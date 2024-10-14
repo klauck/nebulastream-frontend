@@ -56,18 +56,17 @@ namespace nebula {
 
     virtual void TransformResultModifiers(pgquery::PGSelectStmt &root, QueryNode &node);
 
+    virtual std::unique_ptr<ParsedExpression> TransformFunction(pgquery::PGFuncCall &func);
+
     virtual std::unique_ptr<TableRef> TransformSubSelect(pgquery::PGRangeSubselect &root);
 
     std::unique_ptr<QueryNode> TransformSelectNode(pgquery::PGSelectStmt &statement);
 
-    //===== transform from clause functions
     virtual std::unique_ptr<TableRef> TransformRangeVar(pgquery::PGRangeVar *range);
 
     virtual std::unique_ptr<TableRef> TransformTableRefNode(pgquery::PGNode *node);
 
     virtual std::vector<std::unique_ptr<TableRef> >
     TransformFromClause(pgquery::PGList *from, std::unique_ptr<WindowRangeNode> &node);
-
-    //end transform from clause functions =====
   };
 }

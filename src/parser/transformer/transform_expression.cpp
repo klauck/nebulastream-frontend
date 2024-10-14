@@ -52,6 +52,8 @@ namespace nebula {
             case pgquery::T_PGColumnRef: {
                 return Transformer::TransformColumnRef(PGCast<pgquery::PGColumnRef>(*node));
             }
+            case pgquery::T_PGFuncCall:
+                return TransformFunction(PGCast<pgquery::PGFuncCall>(*node));
             case pgquery::T_PGAStar: {
                 return std::make_unique<StarExpression>();
             }

@@ -6,7 +6,7 @@
 
 
 int main() {
-	const std::string query = "SELECT abc FROM [RANGE 10 HOUR] abc, xyz";
+	const std::string query = "SELECT AVG(abc), MAX(b), SUM(c), COUNT(*) from a";
 
 	std::cout << "Query: " << query << std::endl;
 
