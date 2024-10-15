@@ -50,9 +50,17 @@ namespace nebula {
 
     virtual std::unique_ptr<ParsedExpression> TransformConstant(pgquery::PGAConst &con);
 
+    virtual std::unique_ptr<ParsedExpression> TransformBool(pgquery::PGBoolExpr &expr);
+
     virtual std::unique_ptr<ParsedExpression> TransformBinaryOperator(std::string &op,
                                                                       std::unique_ptr<ParsedExpression> left,
                                                                       std::unique_ptr<ParsedExpression> right);
+
+    virtual void TransformResultModifiers(pgquery::PGSelectStmt &root, QueryNode &node);
+
+    virtual std::unique_ptr<TableRef> TransformSubSelect(pgquery::PGRangeSubselect &root);
+
+    std::unique_ptr<QueryNode> TransformSelectNode(pgquery::PGSelectStmt &statement);
 
     //===== transform from clause functions
     virtual std::unique_ptr<TableRef> TransformRangeVar(pgquery::PGRangeVar *range);

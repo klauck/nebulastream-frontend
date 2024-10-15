@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <nebula/common/exception.hpp>
 
 namespace nebula {
      enum class ExpressionType : short {
@@ -203,5 +204,32 @@ namespace nebula {
                return ExpressionType::COMPARE_GREATERTHANOREQUALTO;
           }
           return ExpressionType::INVALID;
+     }
+
+     inline ExpressionType NegateComparisonExpression(ExpressionType type) {
+          ExpressionType negated_type = ExpressionType::INVALID;
+          switch (type) {
+               case ExpressionType::COMPARE_EQUAL:
+                    negated_type = ExpressionType::COMPARE_NOTEQUAL;
+               break;
+               case ExpressionType::COMPARE_NOTEQUAL:
+                    negated_type = ExpressionType::COMPARE_EQUAL;
+               break;
+               case ExpressionType::COMPARE_LESSTHAN:
+                    negated_type = ExpressionType::COMPARE_GREATERTHANOREQUALTO;
+               break;
+               case ExpressionType::COMPARE_GREATERTHAN:
+                    negated_type = ExpressionType::COMPARE_LESSTHANOREQUALTO;
+               break;
+               case ExpressionType::COMPARE_LESSTHANOREQUALTO:
+                    negated_type = ExpressionType::COMPARE_GREATERTHAN;
+               break;
+               case ExpressionType::COMPARE_GREATERTHANOREQUALTO:
+                    negated_type = ExpressionType::COMPARE_LESSTHAN;
+               break;
+               default:
+                    throw NotImplementedException("Unsupported comparison type in negation");
+          }
+          return negated_type;
      }
 }

@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 #include<string>
+#include <nebula/common/exception.hpp>
+
 #include "statement_type.hpp"
 
 
@@ -10,6 +12,11 @@ namespace nebula {
     public:
         //default statement type is invalid statement as this is a base class
         static constexpr const StatementType TYPE = StatementType::INVALID_STATEMENT;
+
+        explicit SQLStatement(StatementType type) : type(type) {
+        }
+
+        StatementType type;
 
         virtual ~SQLStatement() = default;
 
@@ -24,6 +31,14 @@ namespace nebula {
 
         //print the query to console
         virtual void Print() const = 0;
+
+        template<class TARGET>
+        TARGET &Cast() {
+            if (type != TARGET::TYPE && TARGET::TYPE != StatementType::INVALID_STATEMENT) {
+                throw InvalidOperationException("Failed to cast statement to type - statement type mismatch");
+            }
+            return reinterpret_cast<TARGET &>(*this);
+        }
     };
 }
 

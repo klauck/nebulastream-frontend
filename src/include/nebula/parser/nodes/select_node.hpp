@@ -1,6 +1,6 @@
 #pragma once
 #include "nebula/parser/expressions/parsed_expression.hpp"
-#include "nebula/parser/refs/table_ref.hpp"
+#include "nebula/parser/refs/base_table_ref.hpp"
 #include "query_node.hpp"
 #include <vector>
 #include <memory>

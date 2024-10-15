@@ -11,9 +11,11 @@
 namespace nebula {
     class SelectStatement : public SQLStatement {
     public:
+        SelectStatement();
+
         static constexpr const StatementType TYPE = StatementType::SELECT_STATEMENT;
 
-        std::unique_ptr<SelectNode> select_node;
+        std::unique_ptr<QueryNode> node;
 
         void Print() const override;
 

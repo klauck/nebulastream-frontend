@@ -5,4 +5,5 @@ add_library(nebula_transformer OBJECT transformer.cpp
         transform_operator.cpp
         transform_columnref.cpp
         transform_tableref.cpp
-        transform_constant.cpp)
+        transform_constant.cpp
+        transform_bool.cpp)

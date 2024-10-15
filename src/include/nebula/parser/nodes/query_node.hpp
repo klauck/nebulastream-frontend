@@ -1,4 +1,8 @@
 #pragma once
+#include <vector>
+#include <memory>
+#include "nebula/parser/modifiers/result_modifier.hpp"
+#include "nebula/common/exception.hpp"
 
 namespace nebula {
     enum class QueryNodeType : short {
@@ -10,12 +14,24 @@ namespace nebula {
     };
 
     class QueryNode {
-        public:
-            explicit QueryNode(QueryNodeType type) : type(type) {
-            }
-            virtual ~QueryNode() {
-            }
+    public:
+        explicit QueryNode(QueryNodeType type) : type(type) {
+        }
 
-            QueryNodeType type;
+        virtual ~QueryNode() {
+        }
+
+        std::vector<std::unique_ptr<nebula::ResultModifier> > modifiers;
+
+        QueryNodeType type;
+
+        template<class TARGET>
+        TARGET &Cast() {
+            if (type != TARGET::TYPE) {
+                throw InvalidOperationException(
+                    "Failed to cast query node to type - query node type mismatch, ");
+            }
+            return reinterpret_cast<TARGET &>(*this);
+        }
     };
 }
