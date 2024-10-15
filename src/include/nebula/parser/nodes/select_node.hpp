@@ -1,4 +1,6 @@
+// duckdb reference: src/include/duckdb/parser/select_node.hpp
 #pragma once
+
 #include <memory>
 #include <vector>
 #include "nebula/parser/expressions/parsed_expression.hpp"

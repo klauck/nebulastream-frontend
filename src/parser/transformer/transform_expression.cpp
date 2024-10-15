@@ -1,3 +1,4 @@
+// duckdb reference: src/parser/transform/expression/transform_expression.cpp
 #include <memory>
 #include <string>
 #include <vector>
@@ -5,9 +6,6 @@
 #include <nebula/parser/expressions/star_expression.hpp>
 #include <nebula/parser/transformer/transformer.hpp>
 
-//
-// Created by Usama Bin Tariq on 23.09.24.
-//
 namespace nebula
 {
 std::unique_ptr<ParsedExpression> Transformer::TransformResTarget(pgquery::PGResTarget& root)

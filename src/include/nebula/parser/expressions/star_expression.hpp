@@ -1,8 +1,6 @@
-//
-// Created by Usama Bin Tariq on 21.09.24.
-//
-
+// duckdb reference: src/include/duckdb/parser/expression/star_expression.hpp
 #pragma once
+
 #include <string>
 #include "parsed_expression.hpp"
 

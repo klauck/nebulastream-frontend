@@ -1,8 +1,4 @@
-//
-// Created by Usama Bin Tariq on 01.10.24.
-//
-
-
+// duckdb reference: src/parser/transform/expression/transform_bool_expr.cpp
 #include <memory>
 #include <nebula/common/exception.hpp>
 #include <nebula/parser/expressions/conjunction_expression.hpp>

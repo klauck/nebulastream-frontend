@@ -1,4 +1,6 @@
+// duckdb reference: src/include/duckdb/parser/query_node.hpp
 #pragma once
+
 #include <memory>
 #include <vector>
 #include "nebula/common/exception.hpp"

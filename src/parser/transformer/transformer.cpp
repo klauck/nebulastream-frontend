@@ -1,7 +1,4 @@
-//
-// Created by Usama Bin Tariq on 18.09.24.
-//
-
+// duckdb reference: src/parser/transformer.cpp
 #include "nebula/parser/transformer/transformer.hpp"
 #include <iostream>
 #include <memory>

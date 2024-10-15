@@ -1,7 +1,6 @@
-//
-// Created by Usama Bin Tariq on 16.09.24.
-//
+// duckdb reference: src/include/duckdb/parser/sql_statement.hpp
 #pragma once
+
 #include <memory>
 #include <string>
 #include <vector>

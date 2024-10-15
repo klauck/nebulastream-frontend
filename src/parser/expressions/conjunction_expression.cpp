@@ -1,7 +1,4 @@
-//
-// Created by Usama Bin Tariq on 01.10.24.
-//
-
+// duckdb reference: src/parser/expression/conjunction_expression.cpp
 #include "nebula/parser/expressions/conjunction_expression.hpp"
 #include <memory>
 #include <vector>

@@ -1,3 +1,4 @@
+// duckdb reference: src/parser/expression/star_expression.cpp
 #include <memory>
 #include <string>
 #include <vector>

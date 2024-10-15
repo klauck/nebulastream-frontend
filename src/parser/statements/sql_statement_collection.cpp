@@ -1,6 +1,3 @@
-//
-// Created by Usama Bin Tariq on 18.09.24.
-//
 #include "nebula/parser/statements/sql_statement_collection.hpp"
 #include <iostream>
 #include <memory>

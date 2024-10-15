@@ -1,7 +1,4 @@
-//
-// Created by Usama Bin Tariq on 16.09.24.
-//
-
+// duckdb reference: src/parser/statement/select_statement.cpp
 #include "nebula/parser/statements/select_statement.hpp"
 #include <iostream>
 #include <memory>

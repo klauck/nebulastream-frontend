@@ -1,7 +1,4 @@
-//
-// Created by Usama Bin Tariq on 18.09.24.
-//
-
+//duckdb reference: src/common/enums/statement_type.cpp
 #include <iostream>
 #include <memory>
 #include <string>

@@ -1,7 +1,3 @@
-//
-// Created by Usama Bin Tariq on 23.09.24.
-//
-
 #include <gtest/gtest.h>
 #include <nebula/parser/nebula_parser.hpp>
 #include <nebula/parser/statements/select_statement.hpp>

@@ -1,3 +1,4 @@
+// duckdb reference: src/include/duckdb/parser/result_modifier.hpp
 #pragma once
 
 #include "result_modifier.hpp"

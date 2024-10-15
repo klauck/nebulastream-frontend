@@ -1,7 +1,3 @@
-//
-// Created by Usama Bin Tariq on 17.09.24.
-//
-
 #include "nebula/parser/nebula_parser.hpp"
 #include <memory>
 #include <string>

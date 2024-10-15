@@ -1,7 +1,4 @@
-//
-// Created by Usama Bin Tariq on 23.09.24.
-//
-
+// duckdb reference: src/parser/transform/expression/transform_columnref.cpp
 #include <memory>
 #include <string>
 #include <vector>

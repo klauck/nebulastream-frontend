@@ -1,4 +1,6 @@
+// duckdb reference: src/include/duckdb/common/constants.hpp
 #pragma once
+
 #include <string>
 #include <nebula/common/exception.hpp>
 

@@ -1,4 +1,6 @@
+// duckdb reference: src/include/duckdb/parser/tableref.hpp
 #pragma once
+
 #include <string>
 #include "table_ref_type.hpp"
 

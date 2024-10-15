@@ -1,8 +1,5 @@
-//
-// Created by Usama Bin Tariq on 23.09.24.
-//
-
 #pragma once
+
 #include <cstring>
 #include <iostream>
 #include <stdexcept>

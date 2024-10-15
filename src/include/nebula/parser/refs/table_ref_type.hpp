@@ -1,4 +1,6 @@
+// duckdb reference: src/include/duckdb/common/enums/tableref_type.hpp
 #pragma once
+
 namespace nebula
 {
 enum class TableReferenceType : short

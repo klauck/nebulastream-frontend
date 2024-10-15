@@ -1,7 +1,6 @@
-//
-// Created by Usama Bin Tariq on 23.09.24.
-//
+// duckdb reference: src/include/duckdb/parser/expression/constant_expression.hpp
 #pragma once
+
 #include <string>
 #include "nebula/common/value.hpp"
 #include "parsed_expression.hpp"

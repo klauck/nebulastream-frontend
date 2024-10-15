@@ -1,4 +1,6 @@
+// duckdb reference: src/include/duckdb/parser/expression/comparison_expression.hpp
 #pragma once
+
 #include <memory>
 #include <string>
 #include "parsed_expression.hpp"
