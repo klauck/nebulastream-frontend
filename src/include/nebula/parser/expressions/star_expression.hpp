@@ -1,18 +1,18 @@
-//
-// Created by Usama Bin Tariq on 21.09.24.
-//
-
+// duckdb reference: src/include/duckdb/parser/expression/star_expression.hpp
 #pragma once
-#include "parsed_expression.hpp"
+
 #include <string>
+#include "parsed_expression.hpp"
 
-namespace nebula {
-    class StarExpression : public ParsedExpression {
-    public:
-        StarExpression();
+namespace nebula
+{
+class StarExpression : public ParsedExpression
+{
+public:
+    StarExpression();
 
-        static constexpr const ExpressionClass TYPE = ExpressionClass::STAR;
+    static constexpr const ExpressionClass TYPE = ExpressionClass::STAR;
 
-        std::string ToString() override;
-    };
+    std::string ToString() override;
+};
 }

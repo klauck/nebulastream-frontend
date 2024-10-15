@@ -1,17 +1,18 @@
+// duckdb reference: src/include/duckdb/parser/expression/parsed_expression.hpp
 #pragma once
 
-#include "base_expression.hpp"
 #include <string>
+#include "base_expression.hpp"
 
-namespace nebula {
-    class ParsedExpression : public BaseExpression {
-    public:
-        ParsedExpression(ExpressionType type,
-                         ExpressionClass expression_class) : BaseExpression(type, expression_class) {
-        }
+namespace nebula
+{
+class ParsedExpression : public BaseExpression
+{
+public:
+    ParsedExpression(ExpressionType type, ExpressionClass expression_class) : BaseExpression(type, expression_class) { }
 
-        virtual ~ParsedExpression() = default;
+    virtual ~ParsedExpression() = default;
 
-        std::string ToString() override;
-    };
+    std::string ToString() override;
+};
 }

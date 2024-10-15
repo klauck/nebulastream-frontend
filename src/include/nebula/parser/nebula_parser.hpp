@@ -1,26 +1,24 @@
-//
-// Created by Usama Bin Tariq on 18.09.24.
-//
-
 #pragma once
+
 #include <iostream>
-#include "statements/sql_statement_collection.hpp"
+#include <memory>
 #include <string>
 #include <vector>
-#include <memory>
+#include "statements/sql_statement_collection.hpp"
 
-namespace nebula {
-    class Parser {
-    public:
-        Parser();
+namespace nebula
+{
+class Parser
+{
+public:
+    Parser();
 
-        virtual ~Parser() = default;
+    virtual ~Parser() = default;
 
-        virtual bool parse(const std::string &input);
+    virtual bool parse(const std::string& input);
 
-        std::unique_ptr<SQLStatementCollection> statements_collection = std::make_unique<
-            SQLStatementCollection>();
+    std::unique_ptr<SQLStatementCollection> statements_collection = std::make_unique<SQLStatementCollection>();
 
-        virtual void PrintStatements();
-    };
+    virtual void PrintStatements();
+};
 }

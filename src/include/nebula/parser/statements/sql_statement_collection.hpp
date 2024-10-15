@@ -1,17 +1,20 @@
 #pragma once
+
 #include <iostream>
-#include "sql_statement.hpp"
 #include <vector>
+#include "sql_statement.hpp"
 
-namespace nebula {
-    class SQLStatementCollection {
-    public:
-        virtual ~SQLStatementCollection() = default;
+namespace nebula
+{
+class SQLStatementCollection
+{
+public:
+    virtual ~SQLStatementCollection() = default;
 
-        virtual void Print();
+    virtual void Print();
 
-        virtual void add_statement(std::unique_ptr<SQLStatement> &statement);
+    virtual void add_statement(std::unique_ptr<SQLStatement>& statement);
 
-        std::vector<std::unique_ptr<SQLStatement> > statements;
-    };
+    std::vector<std::unique_ptr<SQLStatement>> statements;
+};
 }

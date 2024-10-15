@@ -1,29 +1,29 @@
-//
-// Created by Usama Bin Tariq on 01.10.24.
-//
+// duckdb reference: src/include/duckdb/parser/expression/conjunction_expression.hpp
 #pragma once
-#include "parsed_expression.hpp"
-#include<vector>
+
+#include <memory>
 #include <string>
-#include<memory>
+#include <vector>
+#include "parsed_expression.hpp"
 
 //this class represents 'and' and 'or' expressions
-namespace nebula {
-    class ConjunctionExpression : public ParsedExpression {
-    public:
-        static constexpr const ExpressionClass TYPE = ExpressionClass::CONJUNCTION;
+namespace nebula
+{
+class ConjunctionExpression : public ParsedExpression
+{
+public:
+    static constexpr const ExpressionClass TYPE = ExpressionClass::CONJUNCTION;
 
-        explicit ConjunctionExpression(ExpressionType type);
+    explicit ConjunctionExpression(ExpressionType type);
 
-        ConjunctionExpression(ExpressionType type, std::vector<std::unique_ptr<ParsedExpression> > children);
+    ConjunctionExpression(ExpressionType type, std::vector<std::unique_ptr<ParsedExpression>> children);
 
-        ConjunctionExpression(ExpressionType type, std::unique_ptr<ParsedExpression> left,
-                              std::unique_ptr<ParsedExpression> right);
+    ConjunctionExpression(ExpressionType type, std::unique_ptr<ParsedExpression> left, std::unique_ptr<ParsedExpression> right);
 
-        std::vector<std::unique_ptr<ParsedExpression> > children;
+    std::vector<std::unique_ptr<ParsedExpression>> children;
 
-        void AddExpression(std::unique_ptr<ParsedExpression> expr);
+    void AddExpression(std::unique_ptr<ParsedExpression> expr);
 
-        std::string ToString() const;
-    };
+    std::string ToString() const;
+};
 }
