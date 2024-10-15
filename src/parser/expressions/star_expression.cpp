@@ -1,13 +1,16 @@
-#include <nebula/parser/expressions/star_expression.hpp>
+#include <memory>
 #include <string>
 #include <vector>
-#include <memory>
+#include <nebula/parser/expressions/star_expression.hpp>
 
-namespace nebula {
-    StarExpression::StarExpression() : ParsedExpression(ExpressionType::STAR, ExpressionClass::STAR) {
-    }
+namespace nebula
+{
+StarExpression::StarExpression() : ParsedExpression(ExpressionType::STAR, ExpressionClass::STAR)
+{
+}
 
-    std::string StarExpression::ToString() {
-        return "*";
-    }
+std::string StarExpression::ToString()
+{
+    return "*";
+}
 }
