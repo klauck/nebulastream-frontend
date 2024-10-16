@@ -17,7 +17,7 @@ TEST(PARSER_TEST, QUERY_PARSING_TEST) {
     for (const auto &query: queries) {
         parser.parse(query);
 
-        ASSERT_EQ(++total_parsed_queries, parser.statements_collection->statements.size());
+        ASSERT_EQ(++total_parsed_queries, parser.statements.size());
     }
 
     std::cout << "Total Parsed Queries: " << total_parsed_queries << std::endl;

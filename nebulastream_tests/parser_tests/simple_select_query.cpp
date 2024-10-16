@@ -12,7 +12,7 @@ TEST(PARSER_TEST, SIMPLE_SELECT_QUERY) {
     parser.parse(query);
 
     //getting statements
-    auto &statements = parser.statements_collection->statements;
+    auto& statements = parser.statements;
 
     //check the size of parsed statement
     ASSERT_EQ(1, statements.size());

@@ -16,17 +16,6 @@ SelectStatement::SelectStatement() : SQLStatement(StatementType::SELECT_STATEMEN
 void SelectStatement::Print() const
 {
     std::cout << "=====Select Statement=====" << std::endl;
-    std::cout << "From: ";
-
-    // for (const auto &fr: *from) {
-    //     std::cout << fr << ", ";
-    // }
-    // std::cout << std::endl << "Columns: ";
-    // for (const auto &c: *columns) {
-    //     std::cout << c << ", ";
-    // }
-    // std::cout << std::endl;
-    // std::cout << "=====END=====" << std::endl << std::endl;
 }
 
 std::string SelectStatement::ToString() const

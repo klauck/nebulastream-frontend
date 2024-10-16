@@ -9,7 +9,7 @@ TEST(PARSER_TEST, SELECT_LIMIT_TEST) {
 
     parser.parse(query);
 
-    const auto &statements = parser.statements_collection->statements;
+    const auto& statements = parser.statements;
 
     ASSERT_EQ(statements.size(), 1);
 

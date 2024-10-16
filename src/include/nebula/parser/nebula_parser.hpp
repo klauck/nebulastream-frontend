@@ -4,7 +4,7 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include "statements/sql_statement_collection.hpp"
+#include "statements/sql_statement.hpp"
 
 namespace nebula
 {
@@ -17,7 +17,7 @@ public:
 
     virtual bool parse(const std::string& input);
 
-    std::unique_ptr<SQLStatementCollection> statements_collection = std::make_unique<SQLStatementCollection>();
+    std::vector<std::unique_ptr<SQLStatement>> statements;
 
     virtual void PrintStatements();
 };

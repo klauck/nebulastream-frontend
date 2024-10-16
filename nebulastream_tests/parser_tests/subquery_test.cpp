@@ -10,7 +10,7 @@ TEST(PARSER_TEST, SUB_QUERY_TEST) {
 
     parser.parse(query);
 
-    auto &statements = parser.statements_collection->statements;
+    auto& statements = parser.statements;
 
     //assert the size of query
     ASSERT_EQ(1, statements.size());

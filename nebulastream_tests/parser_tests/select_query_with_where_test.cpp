@@ -63,7 +63,7 @@ TEST(PARSER_TEST, SELECT_WHERE_SIMPLE_QUERY_INT) {
     parser.parse(query_with_int);
 
     //getting statements
-    auto &statements = parser.statements_collection->statements;
+    auto& statements = parser.statements;
 
     //verify common pre steps
     VERIFY_PRE_STEPS(statements);
@@ -90,7 +90,7 @@ TEST(PARSER_TEST, SELECT_WHERE_SIMPLE_QUERY_STRING) {
     parser.parse(query_with_string);
 
     //getting statements
-    auto &statements = parser.statements_collection->statements;
+    auto& statements = parser.statements;
 
     //verify common pre steps
     VERIFY_PRE_STEPS(statements);
