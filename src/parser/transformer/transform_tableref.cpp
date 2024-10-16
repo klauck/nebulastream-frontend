@@ -59,9 +59,9 @@ std::unique_ptr<TableRef> Transformer::TransformTableRefNode(pgquery::PGNode* no
     }
 }
 
-std::unique_ptr<TableRef> Transformer::TransformFromClause(pgquery::PGList* from)
+std::vector<std::unique_ptr<TableRef>> Transformer::TransformFromClause(pgquery::PGList* from)
 {
-    std::unique_ptr<std::string> from_table = std::make_unique<std::string>();
+    std::vector<std::unique_ptr<TableRef> > results;
 
     //if query has from clause
     if (from)
@@ -71,17 +71,12 @@ std::unique_ptr<TableRef> Transformer::TransformFromClause(pgquery::PGList* from
             throw NotImplementedException("From clause is empty");
         }
 
-        if (from->length > 1)
-        {
-            throw NotImplementedException("From clause has more than one table");
+        for (auto cc = from->head; cc != nullptr; cc = cc->next) {
+            auto *node = static_cast<pgquery::PGNode *>(cc->data.ptr_value);
+            results.emplace_back(std::move(TransformTableRefNode(node)));
         }
-
-        //nebula don't support multiple tables from
-        auto n = static_cast<pgquery::PGNode*>(from->head->data.ptr_value);
-
-        return std::move(TransformTableRefNode(n));
     }
 
-    return nullptr;
+    return results;
 }
 }

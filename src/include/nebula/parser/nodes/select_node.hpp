@@ -20,7 +20,7 @@ public:
     //! The projection list
     std::vector<std::unique_ptr<ParsedExpression>> select_list;
     //! The FROM clause
-    std::unique_ptr<TableRef> from_table;
+    std::vector<std::unique_ptr<TableRef>> from_tables;
     //! The WHERE clause
     std::unique_ptr<ParsedExpression> where_clause;
 };

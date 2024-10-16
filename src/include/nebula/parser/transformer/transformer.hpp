@@ -68,7 +68,7 @@ private:
 
     virtual std::unique_ptr<TableRef> TransformTableRefNode(pgquery::PGNode* node);
 
-    virtual std::unique_ptr<TableRef> TransformFromClause(pgquery::PGList* from);
+    std::vector<std::unique_ptr<TableRef>> TransformFromClause(pgquery::PGList* from);
 
     //end transform from clause functions =====
 };
