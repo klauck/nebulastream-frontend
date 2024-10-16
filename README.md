@@ -18,3 +18,11 @@ cd nebulastream_tests/parser_tests
 ./parser_tests
 ```
 
+## Formatting
+
+We use clang-format for code formatting based on the NebulaStream style.
+
+To format changed files, run `git clang-format`.
+
+To format existing files, run `clang-format -i FILE`.
+
