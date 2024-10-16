@@ -58,18 +58,16 @@ private:
     TransformBinaryOperator(std::string& op, std::unique_ptr<ParsedExpression> left, std::unique_ptr<ParsedExpression> right);
 
     virtual void TransformResultModifiers(pgquery::PGSelectStmt& root, QueryNode& node);
+    virtual std::unique_ptr<ParsedExpression> TransformFunction(pgquery::PGFuncCall& func);
 
     virtual std::unique_ptr<TableRef> TransformSubSelect(pgquery::PGRangeSubselect& root);
 
     std::unique_ptr<QueryNode> TransformSelectNode(pgquery::PGSelectStmt& statement);
 
-    //===== transform from clause functions
     virtual std::unique_ptr<TableRef> TransformRangeVar(pgquery::PGRangeVar* range);
 
     virtual std::unique_ptr<TableRef> TransformTableRefNode(pgquery::PGNode* node);
 
     std::vector<std::unique_ptr<TableRef>> TransformFromClause(pgquery::PGList* from);
-
-    //end transform from clause functions =====
 };
 }

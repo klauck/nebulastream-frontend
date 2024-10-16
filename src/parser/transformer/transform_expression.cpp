@@ -56,6 +56,9 @@ std::unique_ptr<ParsedExpression> Transformer::TransformExpression(pgquery::PGNo
         case pgquery::T_PGResTarget: {
             return Transformer::TransformResTarget(PGCast<pgquery::PGResTarget>(*node));
         }
+        //if the target type is function, e.g AVG, COUNT, MAX
+        case pgquery::T_PGFuncCall:
+            return TransformFunction(PGCast<pgquery::PGFuncCall>(*node));
         //if the node type is column reference
         case pgquery::T_PGColumnRef: {
             return Transformer::TransformColumnRef(PGCast<pgquery::PGColumnRef>(*node));

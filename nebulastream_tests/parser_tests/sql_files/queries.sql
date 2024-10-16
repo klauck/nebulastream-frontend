@@ -7,3 +7,7 @@ select first_name as name from users where id = 1 --select query with where clau
 select first_name as name from users where first_name = 'stefan' --select query with where clause string comparison
 select name from users where name = 'stefan' limit 10 offset 10 -- select query with limit
 SELECT * FROM t1 UNION SELECT * FROM t2 col1; -- union query
+SELECT MAX(a) from t1; -- aggregate query max
+SELECT AVG(a) from t1; -- aggregate query avg
+SELECT COUNT(a) from t1; -- aggregate query count
+SELECT SUM(a) from t1; -- aggregate query sum
