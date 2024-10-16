@@ -40,7 +40,7 @@ TEST(PARSER_TEST, SUB_QUERY_TEST) {
     ASSERT_EQ(first_select_item->type, nebula::ExpressionType::STAR);
 
     //get from clause
-    auto &from = select_node.from_tables[0];
+    auto& from = select_node.from_tables[0];
 
     //very that from is type of sub query
     ASSERT_EQ(from->type, nebula::TableReferenceType::SUBQUERY);
@@ -73,7 +73,7 @@ TEST(PARSER_TEST, SUB_QUERY_TEST) {
     ASSERT_EQ(s_first_select_item->type, nebula::ExpressionType::STAR);
 
     //get from clause
-    auto &s_from = s_select_node.from_tables[0];
+    auto& s_from = s_select_node.from_tables[0];
 
     ASSERT_EQ(s_from->type, nebula::TableReferenceType::BASE_TABLE);
 

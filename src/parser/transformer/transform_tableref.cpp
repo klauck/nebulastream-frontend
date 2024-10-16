@@ -61,7 +61,7 @@ std::unique_ptr<TableRef> Transformer::TransformTableRefNode(pgquery::PGNode* no
 
 std::vector<std::unique_ptr<TableRef>> Transformer::TransformFromClause(pgquery::PGList* from)
 {
-    std::vector<std::unique_ptr<TableRef> > results;
+    std::vector<std::unique_ptr<TableRef>> results;
 
     //if query has from clause
     if (from)
@@ -71,8 +71,9 @@ std::vector<std::unique_ptr<TableRef>> Transformer::TransformFromClause(pgquery:
             throw NotImplementedException("From clause is empty");
         }
 
-        for (auto cc = from->head; cc != nullptr; cc = cc->next) {
-            auto *node = static_cast<pgquery::PGNode *>(cc->data.ptr_value);
+        for (auto cc = from->head; cc != nullptr; cc = cc->next)
+        {
+            auto* node = static_cast<pgquery::PGNode*>(cc->data.ptr_value);
             results.emplace_back(std::move(TransformTableRefNode(node)));
         }
     }
