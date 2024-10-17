@@ -11,6 +11,7 @@ namespace nebula
 class ColumnExpression : public ParsedExpression
 {
 public:
+    static constexpr const ExpressionClass TYPE = ExpressionClass::COLUMN_REF;
     ColumnExpression();
 
     //! Specify both the column and table name

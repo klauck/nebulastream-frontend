@@ -10,9 +10,10 @@ namespace nebula
 class ConstantExpression : public ParsedExpression
 {
 public:
+    static constexpr const ExpressionClass TYPE = ExpressionClass::CONSTANT;
+
     explicit ConstantExpression(Value value);
 
-    static constexpr const ExpressionClass TYPE = ExpressionClass::CONSTANT;
     Value value;
 
     std::string ToString() override;

@@ -9,9 +9,9 @@ namespace nebula
 class StarExpression : public ParsedExpression
 {
 public:
-    StarExpression();
-
     static constexpr const ExpressionClass TYPE = ExpressionClass::STAR;
+
+    StarExpression();
 
     std::string ToString() override;
 };

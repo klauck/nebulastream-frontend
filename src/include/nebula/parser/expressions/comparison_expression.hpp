@@ -10,9 +10,10 @@ namespace nebula
 class ComparisonExpression : public ParsedExpression
 {
 public:
+    static constexpr const ExpressionClass TYPE = ExpressionClass::COMPARISON;
+
     explicit ComparisonExpression(ExpressionType type, std::unique_ptr<ParsedExpression> left, std::unique_ptr<ParsedExpression> right);
 
-    static constexpr const ExpressionClass TYPE = ExpressionClass::COMPARISON;
     std::unique_ptr<ParsedExpression> left;
     std::unique_ptr<ParsedExpression> right;
 

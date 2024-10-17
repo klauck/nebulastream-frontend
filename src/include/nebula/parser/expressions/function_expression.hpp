@@ -8,9 +8,9 @@ namespace nebula
 {
 class FunctionExpression : public ParsedExpression
 {
+public:
     static constexpr const ExpressionClass TYPE = ExpressionClass::FUNCTION;
 
-public:
     FunctionExpression();
     explicit FunctionExpression(std::string function_name);
 
