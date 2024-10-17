@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include_directories(src/include)
 include_directories(src/libraries/pg_query/include)
 add_subdirectory(src)
+add_subdirectory(example)
 add_subdirectory(nebulastream_tests)
 
 # include_directories(src/bin)
