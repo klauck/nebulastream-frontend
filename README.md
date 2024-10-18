@@ -5,6 +5,8 @@ The parser code is based on (extracted from) DuckDB (https://github.com/duckdb/d
 
 ## Using Nebula SQL Parser
 
+**Note:** You can also find a detailed usage description [here](docs/README.md).
+
 To use the Nebula SQL Parser, follow these steps:
 
 1. **Clone the Repository**  
