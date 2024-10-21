@@ -2,6 +2,7 @@
 #pragma once
 
 #include <memory>
+#include <string>
 #include "nebula/parser/statements/select_statement.hpp"
 #include "table_ref.hpp"
 
@@ -20,5 +21,6 @@ public:
     }
 
     std::unique_ptr<SelectStatement> subquery;
+    std::string ToString() override;
 };
 }

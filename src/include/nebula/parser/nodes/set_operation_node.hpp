@@ -31,5 +31,7 @@ public:
     std::unique_ptr<QueryNode> left;
     //! The right side of the set operation
     std::unique_ptr<QueryNode> right;
+
+    std::string ToString() override;
 };
 }

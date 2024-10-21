@@ -18,5 +18,6 @@ public:
     std::string table_name;
 
     virtual ~BaseTableRef() = default;
+    std::string ToString() override;
 };
 }

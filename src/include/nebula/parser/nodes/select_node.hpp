@@ -23,5 +23,7 @@ public:
     std::vector<std::unique_ptr<TableRef>> from_tables;
     //! The WHERE clause
     std::unique_ptr<ParsedExpression> where_clause;
+
+    std::string ToString() override;
 };
 }

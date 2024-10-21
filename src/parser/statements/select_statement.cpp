@@ -13,14 +13,16 @@ SelectStatement::SelectStatement() : SQLStatement(StatementType::SELECT_STATEMEN
 {
 }
 
-void SelectStatement::Print() const
+void SelectStatement::Print()
 {
     std::cout << "=====Select Statement=====" << std::endl;
+    std::cout << ToString() << std::endl;
+    std::cout << "=====END STATEMENT======" << std::endl;
 }
 
-std::string SelectStatement::ToString() const
+std::string SelectStatement::ToString()
 {
-    return std::string("Select");
+    return node->ToString();
 }
 
 bool SelectStatement::VerifyStreamQuery() const
@@ -30,17 +32,6 @@ bool SelectStatement::VerifyStreamQuery() const
 
 std::string SelectStatement::ToStreamQuery() const
 {
-    // if (from->empty()) {
-    //     return "No From Clause";
-    // }
-    // //from by , seprated
-    // std::string from_joined = "";
-    // int count = 0;
-    // for (const auto &fr: *from) {
-    //     from_joined += fr + (from->size() == (++count) ? "" : ",");
-    // }
-    //
-    // return "Query::from(\"" + from_joined + "\")";
     return "";
 }
 }

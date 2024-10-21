@@ -37,8 +37,6 @@ std::unique_ptr<nebula::ParsedExpression> nebula::Transformer::TransformBool(pgq
                 }
                 break;
             }
-            default:
-                throw NotImplementedException("This type of expression is not implemented.");
             case pgquery::PG_NOT_EXPR: {
                 if (next->type == ExpressionType::COMPARE_IN)
                 {
@@ -55,10 +53,13 @@ std::unique_ptr<nebula::ParsedExpression> nebula::Transformer::TransformBool(pgq
                 }
                 else
                 {
+                    throw NotImplementedException("This type of expression is not implemented.");
                     //FIXME: Transform operator expression type
                 }
                 break;
             }
+            default:
+                throw NotImplementedException("This type of expression is not implemented.");
         }
     }
 

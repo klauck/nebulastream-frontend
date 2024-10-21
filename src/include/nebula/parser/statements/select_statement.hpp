@@ -18,9 +18,9 @@ public:
 
     std::unique_ptr<QueryNode> node;
 
-    void Print() const override;
+    void Print() override;
 
-    std::string ToString() const override;
+    std::string ToString() override;
 
     std::string ToStreamQuery() const override;
 

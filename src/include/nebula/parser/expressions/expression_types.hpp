@@ -194,6 +194,36 @@ enum class ExpressionClass : short
     BOUND_EXPANDED = 51
 };
 
+inline std::string ExpressionTypeToOperator(ExpressionType type)
+{
+    switch (type)
+    {
+        case ExpressionType::COMPARE_EQUAL:
+            return "==";
+        case ExpressionType::COMPARE_NOTEQUAL:
+            return "!=";
+        case ExpressionType::COMPARE_LESSTHAN:
+            return "<";
+        case ExpressionType::COMPARE_GREATERTHAN:
+            return ">";
+        case ExpressionType::COMPARE_LESSTHANOREQUALTO:
+            return "<=";
+        case ExpressionType::COMPARE_GREATERTHANOREQUALTO:
+            return ">=";
+        case ExpressionType::COMPARE_IN:
+            return "IN";
+        case ExpressionType::COMPARE_NOT_IN:
+            return "NOT IN";
+        case ExpressionType::CONJUNCTION_OR:
+            return "OR";
+        case ExpressionType::CONJUNCTION_AND:
+            return "AND";
+        default:
+            return "INVALID";
+    }
+}
+
+
 inline ExpressionType OperatorToExpressionType(const std::string& op)
 {
     if (op == "=" || op == "==")

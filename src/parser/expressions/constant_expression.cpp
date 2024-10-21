@@ -13,6 +13,6 @@ ConstantExpression::ConstantExpression(Value val)
 
 std::string ConstantExpression::ToString()
 {
-    return value == nullptr ? "" : value.toString();
+    return value.toString();
 }
 }

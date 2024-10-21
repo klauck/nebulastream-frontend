@@ -6,7 +6,8 @@
 
 int main()
 {
-    const std::string query = "SELECT AVG(abc), MAX(b), SUM(c), COUNT(*) from a";
+    const std::string query = "SELECT first_name as fn, last_name as ln from users where id = 2 UNION SELECT first_name as fn, last_name "
+                              "as ln from users where id = 2";
     std::cout << "Query: " << query << std::endl;
 
     nebula::Parser parser;

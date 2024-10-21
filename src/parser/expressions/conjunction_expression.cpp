@@ -1,6 +1,7 @@
 // duckdb reference: src/parser/expression/conjunction_expression.cpp
 #include "nebula/parser/expressions/conjunction_expression.hpp"
 #include <memory>
+#include <string>
 #include <vector>
 
 namespace nebula
@@ -41,5 +42,17 @@ void ConjunctionExpression::AddExpression(std::unique_ptr<ParsedExpression> expr
     {
         children.push_back(std::move(expr));
     }
+}
+
+std::string ConjunctionExpression::ToString()
+{
+    std::string output;
+
+    for (auto& expr : children)
+    {
+        output += expr->ToString();
+    }
+
+    return output;
 }
 }

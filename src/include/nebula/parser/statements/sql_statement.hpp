@@ -4,9 +4,7 @@
 #include <iostream>
 #include <string>
 #include <nebula/common/exception.hpp>
-
 #include "statement_type.hpp"
-
 
 namespace nebula
 {
@@ -24,7 +22,7 @@ public:
     virtual ~SQLStatement() = default;
 
     //convert query to string
-    virtual std::string ToString() const = 0;
+    virtual std::string ToString() = 0;
 
     //get the string representation of the stream query
     virtual std::string ToStreamQuery() const = 0;
@@ -33,7 +31,7 @@ public:
     virtual bool VerifyStreamQuery() const = 0;
 
     //print the query to console
-    virtual void Print() const = 0;
+    virtual void Print() = 0;
 
     template <class TARGET>
     TARGET& Cast()

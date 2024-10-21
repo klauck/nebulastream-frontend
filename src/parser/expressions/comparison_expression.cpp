@@ -15,6 +15,6 @@ ComparisonExpression::ComparisonExpression(
 
 std::string ComparisonExpression::ToString()
 {
-    return "NOT IMPLEMENTED";
+    return left->ToString() + " " + ExpressionTypeToOperator(type) + " " + right->ToString();
 }
 }

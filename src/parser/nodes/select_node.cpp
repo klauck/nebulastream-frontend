@@ -10,4 +10,25 @@ namespace nebula
 SelectNode::SelectNode() : QueryNode(QueryNodeType::SELECT_NODE)
 {
 }
+
+std::string SelectNode::ToString()
+{
+    std::string output = "SELECT_NODE\n\tFROM\n";
+    for (auto& tr : from_tables)
+    {
+        output += "\t\t" + tr->ToString() + "\n";
+    }
+
+    output += "\tCOLUMNS:\n";
+
+    for (auto& expr : select_list)
+    {
+        output += "\t\t" + expr->ToString() + "\n";
+    }
+
+    if (where_clause != nullptr)
+        output += "\tWHERE:\n\t\t" + where_clause->ToString();
+
+    return output;
+}
 }

@@ -2,6 +2,7 @@
 #pragma once
 
 #include <string>
+#include "nebula/common/exception.hpp"
 #include "table_ref_type.hpp"
 
 namespace nebula
@@ -14,6 +15,8 @@ public:
     explicit TableRef(TableReferenceType type) : type(type) { }
 
     virtual ~TableRef() = default;
+
+    virtual std::string ToString() = 0;
 
     template <class TARGET>
     inline TARGET& Cast()

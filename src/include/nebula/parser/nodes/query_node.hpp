@@ -2,6 +2,7 @@
 #pragma once
 
 #include <memory>
+#include <string>
 #include <vector>
 #include "nebula/common/exception.hpp"
 #include "nebula/parser/modifiers/result_modifier.hpp"
@@ -28,12 +29,14 @@ public:
 
     QueryNodeType type;
 
+    virtual std::string ToString() = 0;
+
     template <class TARGET>
     TARGET& Cast()
     {
         if (type != TARGET::TYPE)
         {
-            throw InvalidOperationException("Failed to cast query node to type - query node type mismatch, ");
+            throw InvalidOperationException("Failed to cast query node to type - query node type mismatch");
         }
         return reinterpret_cast<TARGET&>(*this);
     }

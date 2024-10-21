@@ -24,6 +24,6 @@ public:
 
     void AddExpression(std::unique_ptr<ParsedExpression> expr);
 
-    std::string ToString() const;
+    std::string ToString() override;
 };
 }
