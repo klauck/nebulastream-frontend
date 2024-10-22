@@ -2,6 +2,7 @@
 
 ## Internal
 
+* [Introduction](introduction.md)
 * [Developer Guide](developer_docs.md)
 
 ## External
