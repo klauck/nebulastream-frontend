@@ -29,6 +29,16 @@ std::string SelectNode::ToString()
     if (where_clause != nullptr)
         output += "\tWHERE:\n\t\t" + where_clause->ToString();
 
+    if (modifiers.size() > 0)
+    {
+        output += "\tMODIFIER:\n";
+    }
+
+    for (auto& mod : modifiers)
+    {
+        output += "\t\t" + mod->ToString() + "\n";
+    }
+
     return output;
 }
 }

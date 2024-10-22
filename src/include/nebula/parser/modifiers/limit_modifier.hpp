@@ -1,6 +1,7 @@
 // duckdb reference: src/include/duckdb/parser/result_modifier.hpp
 #pragma once
 
+#include <string>
 #include "result_modifier.hpp"
 
 namespace nebula
@@ -16,5 +17,7 @@ public:
 
     int offset = 0;
     int limit = 0;
+
+    std::string ToString() override;
 };
 }

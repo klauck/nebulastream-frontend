@@ -1,5 +1,6 @@
 // duckdb reference: src/include/duckdb/parser/result_modifier.hpp
 #pragma once
+#include <string>
 
 namespace nebula
 {
@@ -17,6 +18,8 @@ public:
     explicit ResultModifier(ResultModifierType type) : type(type) { }
 
     ResultModifierType type;
+
+    virtual std::string ToString() = 0;
 
     template <class TARGET>
     TARGET& Cast()
