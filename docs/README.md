@@ -3,7 +3,7 @@
 ## Internal
 
 * [Introduction](introduction.md)
-* [Getting Started](getting_started)
+* [Getting Started](getting_started.md)
 * [Example](example.md)
 * [Developer Docs](dev_docs.md) 
 
