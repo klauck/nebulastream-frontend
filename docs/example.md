@@ -1,11 +1,5 @@
-# NebulaStream SQL Parser
+# Example
 
-This parser library converts SQL strings (e.g., select name from students where id=42) to SQL statement objects, for which members (e.g., tables in the from clause) can be directly accessed.
-The parser code is based on (extracted from) DuckDB (https://github.com/duckdb/duckdb/tree/main/third_party/libpg_query), which in turn is based on the PostgreSQL parser (https://github.com/pganalyze/libpg_query).
-
-## Using Nebula SQL Parser
-
-**Note:** You can also find a detailed usage description [here](docs/README.md).
 
 To use the Nebula SQL Parser, follow these steps:
 
@@ -38,7 +32,7 @@ To use the Nebula SQL Parser, follow these steps:
 
 4. **Modify main.cpp file**
     ```c++
-    std::string query = "SELECT first_name from users";
+    std::string query = "SELECT first_name FROM users";
    
     //create parser instance
     nebula::Parser parser;
@@ -102,7 +96,6 @@ To use the Nebula SQL Parser, follow these steps:
         }
     }
    ```
-
 5. **Build the Project**  
    Use the following commands to build your project and run the executable:
 
@@ -113,27 +106,13 @@ To use the Nebula SQL Parser, follow these steps:
    make
    ./path/to/folder/example
    ```
+6. **Output**
    
-## Build Process
-
-```
-mkdir build
-cd build
-cmake ..
-make
-```
-
-## Running Tests
-
-```
-cd nebulastream_tests/parser_tests
-./parser_tests
-```
-
-## Formatting
-
-We use clang-format for code formatting based on the NebulaStream style.
-
-To format changed files, run `git clang-format`.
-
-To format existing files, run `clang-format -i FILE`.
+   The output will look like this
+   ```
+   Parsed query string: SELECT first_name FROM users
+   Parsed statements: 1
+   Statement Type: SELECT
+   Selected tables: 1
+   Tables: users
+   ```

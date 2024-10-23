@@ -3,7 +3,9 @@
 ## Internal
 
 * [Introduction](introduction.md)
-* [Developer Guide](developer_docs.md)
+* [Getting Started](getting_started)
+* [Example](example.md)
+* [Developer Docs](dev_docs.md) 
 
 ## External
 * [Duck DB](https://github.com/duckdb/duckdb)
