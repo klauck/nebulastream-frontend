@@ -123,6 +123,19 @@ cmake ..
 make
 ```
 
+## Parsing Query
+After building the project, you can use the example binary to parse a query and view the result in the console.
+
+**Usage**
+```shell
+cd example
+./example "<query>"
+```
+**Example**
+```shell
+./example "SELECT * FROM users"
+```
+
 ## Running Tests
 
 ```
