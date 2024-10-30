@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <vector>
+#include "group_by_node.hpp"
 #include "nebula/parser/expressions/parsed_expression.hpp"
 #include "nebula/parser/refs/base_table_ref.hpp"
 #include "query_node.hpp"
@@ -23,6 +24,8 @@ public:
     std::vector<std::unique_ptr<TableRef>> from_tables;
     //! The WHERE clause
     std::unique_ptr<ParsedExpression> where_clause;
+    //! The GROUP BY clause
+    std::unique_ptr<GroupByNode> group_by;
 
     std::string ToString() override;
 };

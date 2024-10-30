@@ -68,5 +68,7 @@ private:
     virtual std::unique_ptr<TableRef> TransformTableRefNode(pgquery::PGNode* node);
 
     std::vector<std::unique_ptr<TableRef>> TransformFromClause(pgquery::PGList* from);
+
+    std::unique_ptr<GroupByNode> TransformGroupBy(pgquery::PGList* from);
 };
 }
