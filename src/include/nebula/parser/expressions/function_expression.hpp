@@ -16,6 +16,7 @@ public:
 
     std::string function_name;
     std::vector<std::unique_ptr<ParsedExpression>> children;
+    bool is_operator;
 
     std::string ToString() override;
 };
