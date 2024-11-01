@@ -12,5 +12,7 @@ class GroupByNode
 {
 public:
     std::vector<std::unique_ptr<ParsedExpression>> group_expressions;
+
+    std::string ToString();
 };
 }

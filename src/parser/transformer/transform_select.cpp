@@ -70,6 +70,7 @@ std::unique_ptr<QueryNode> Transformer::TransformSelectNode(pgquery::PGSelectStm
             select_node.select_list = TransformExpressionList(statement.targetList);
             select_node.where_clause = TransformExpression(statement.whereClause);
             select_node.group_by = TransformGroupBy(statement.groupClause);
+            select_node.orders = TransformOrderBy(statement.sortClause);
             break;
         }
         case pgquery::PG_SETOP_UNION: {

@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <nebula/parser/nodes/order_by_node.hpp>
 #include <nebula/parser/statements/select_statement.hpp>
 #include <parser/gramparse.hpp>
 
@@ -70,5 +71,7 @@ private:
     std::vector<std::unique_ptr<TableRef>> TransformFromClause(pgquery::PGList* from);
 
     std::unique_ptr<GroupByNode> TransformGroupBy(pgquery::PGList* from);
+
+    std::vector<std::unique_ptr<OrderByNode>> TransformOrderBy(pgquery::PGList* order);
 };
 }

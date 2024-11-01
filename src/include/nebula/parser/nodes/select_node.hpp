@@ -6,6 +6,7 @@
 #include "group_by_node.hpp"
 #include "nebula/parser/expressions/parsed_expression.hpp"
 #include "nebula/parser/refs/base_table_ref.hpp"
+#include "order_by_node.hpp"
 #include "query_node.hpp"
 
 
@@ -26,6 +27,7 @@ public:
     std::unique_ptr<ParsedExpression> where_clause;
     //! The GROUP BY clause
     std::unique_ptr<GroupByNode> group_by;
+    std::vector<std::unique_ptr<OrderByNode>> orders;
 
     std::string ToString() override;
 };

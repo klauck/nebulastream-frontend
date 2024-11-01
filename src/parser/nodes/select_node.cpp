@@ -32,11 +32,24 @@ std::string SelectNode::ToString()
     if (modifiers.size() > 0)
     {
         output += "\tMODIFIER:\n";
+        for (auto& mod : modifiers)
+        {
+            output += "\t\t" + mod->ToString() + "\n";
+        }
     }
 
-    for (auto& mod : modifiers)
+    if (orders.size() != 0)
     {
-        output += "\t\t" + mod->ToString() + "\n";
+        output += "\tORDER:\n";
+        for (auto& order : orders)
+        {
+            output += order->ToString() + "\n";
+        }
+    }
+
+    if (group_by != nullptr)
+    {
+        output += "\tGROUP:\n" + group_by->ToString();
     }
 
     return output;
