@@ -1,6 +1,4 @@
-//
-// Created by Usama Bin Tariq on 18.09.24.
-//
+//duckdb reference: src/parser/transform/expression/transform_select.cpp
 
 #include <nebula/parser/transformer/transformer.hpp>
 #include <string>
@@ -57,7 +55,7 @@ namespace nebula {
             case pgquery::PG_SETOP_NONE: {
                 query_node = std::make_unique<SelectNode>();
                 auto &select_node = query_node->Cast<SelectNode>();
-                select_node.from_table = TransformFromClause(statement.fromClause);
+                select_node.from_tables = TransformFromClause(statement.fromClause, select_node.window_clause);
                 select_node.select_list = TransformExpressionList(statement.targetList);
                 select_node.where_clause = TransformExpression(statement.whereClause);
                 break;

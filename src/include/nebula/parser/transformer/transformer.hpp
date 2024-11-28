@@ -1,10 +1,7 @@
-//
-// Created by Usama Bin Tariq on 18.09.24.
-//
+//duckdb reference: src/include/duckdb/parser/transformer.hpp
 
 #pragma once
 #include <nebula/parser/statements/select_statement.hpp>
-#include <nebula/parser/statements/sql_statement_collection.hpp>
 #include <parser/gramparse.hpp>
 #include <string>
 #include <vector>
@@ -19,7 +16,7 @@ namespace nebula {
 
     virtual Transformer clone();
 
-    virtual bool TransformParseTree(pgquery::PGList *tree, std::unique_ptr<SQLStatementCollection> &collection);
+    virtual bool TransformParseTree(pgquery::PGList *tree, std::vector<std::unique_ptr<SQLStatement> > &statements);
 
     template<class T>
     static T &PGCast(pgquery::PGNode &node) {
@@ -58,17 +55,17 @@ namespace nebula {
 
     virtual void TransformResultModifiers(pgquery::PGSelectStmt &root, QueryNode &node);
 
+    virtual std::unique_ptr<ParsedExpression> TransformFunction(pgquery::PGFuncCall &func);
+
     virtual std::unique_ptr<TableRef> TransformSubSelect(pgquery::PGRangeSubselect &root);
 
     std::unique_ptr<QueryNode> TransformSelectNode(pgquery::PGSelectStmt &statement);
 
-    //===== transform from clause functions
     virtual std::unique_ptr<TableRef> TransformRangeVar(pgquery::PGRangeVar *range);
 
     virtual std::unique_ptr<TableRef> TransformTableRefNode(pgquery::PGNode *node);
 
-    virtual std::unique_ptr<TableRef> TransformFromClause(pgquery::PGList *from);
-
-    //end transform from clause functions =====
+    virtual std::vector<std::unique_ptr<TableRef> >
+    TransformFromClause(pgquery::PGList *from, std::unique_ptr<WindowRangeNode> &node);
   };
 }

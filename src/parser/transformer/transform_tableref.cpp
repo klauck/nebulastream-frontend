@@ -1,10 +1,9 @@
-//
-// Created by Usama Bin Tariq on 23.09.24.
-//
+//duckdb reference: src/parser/transform/expression/transform_tableref.cpp
 
 #include <string>
 #include <vector>
 #include <memory>
+#include <datatype/timestamp.hpp>
 #include <nebula/common/exception.hpp>
 #include <nebula/parser/refs/table_ref.hpp>
 #include <nebula/parser/transformer/transformer.hpp>
@@ -55,25 +54,45 @@ namespace nebula {
         }
     }
 
-    std::unique_ptr<TableRef> Transformer::TransformFromClause(pgquery::PGList *from) {
+    std::vector<std::unique_ptr<TableRef> > Transformer::TransformFromClause(pgquery::PGList *from,
+                                                                             std::unique_ptr<WindowRangeNode> &
+                                                                             window_node) {
         std::unique_ptr<std::string> from_table = std::make_unique<std::string>();
 
+
         //if query has from clause
+
+        std::vector<std::unique_ptr<TableRef> > results;
+
         if (from) {
             if (from->length == 0) {
                 throw NotImplementedException("From clause is empty");
             }
 
-            if (from->length > 1) {
-                throw NotImplementedException("From clause has more than one table");
+            for (auto cc = from->head; cc != nullptr; cc = cc->next) {
+                auto *node = static_cast<pgquery::PGNode *>(cc->data.ptr_value);
+
+                if (node->type == pgquery::T_PGWinRangeClause) {
+                    auto range_clause = reinterpret_cast<pgquery::PGWinRangeClause *>(node);
+
+                    auto interval = reinterpret_cast<pgquery::IntervalValue *>(range_clause->interval);
+
+                    window_node = std::make_unique<WindowRangeNode>(WindowRangeNodeType::TUMBLING_WINDOW);
+                    window_node->range = std::make_unique<RangeIntervalExpression>();
+                    window_node->range->unit = interval->unit;
+
+                    //convert value into pg const
+                    auto iv = reinterpret_cast<pgquery::PGAConst *>(interval->value);
+
+                    if (iv != nullptr) {
+                        window_node->range->value = iv->val.val.ival;
+                    }
+                } else {
+                    results.emplace_back(std::move(TransformTableRefNode(node)));
+                }
             }
-
-            //nebula don't support multiple tables from
-            auto n = static_cast<pgquery::PGNode *>(from->head->data.ptr_value);
-
-            return std::move(TransformTableRefNode(n));
         }
 
-        return nullptr;
+        return results;
     }
 }

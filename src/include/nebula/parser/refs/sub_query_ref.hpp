@@ -1,6 +1,5 @@
-//
-// Created by Usama Bin Tariq on 07.10.24.
-//
+//duckdb reference: src/include/duckdb/parser/tableref/subqueryref.hpp
+
 #pragma once
 #include "table_ref.hpp"
 #include "nebula/parser/statements/select_statement.hpp"

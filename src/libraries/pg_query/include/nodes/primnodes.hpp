@@ -68,6 +68,18 @@ typedef enum PGOnCreateConflict {
  * recursively to child tables.  In some contexts it is also useful to carry
  * a TEMP table indication here.
  */
+
+typedef struct IntervalValue : PGNode {
+	char* unit;
+	PGNode* value;
+} IntervalValue;
+
+typedef struct PGWinRangeClause : PGNode
+{
+    PGNode*		interval;   /* Interval value, e.g., '30 SECONDS' */
+} PGWinRangeClause;
+
+
 typedef struct PGRangeVar {
 	PGNodeTag type;
 	char *catalogname;   /* the catalog (database) name, or NULL */
@@ -79,6 +91,7 @@ typedef struct PGRangeVar {
 	PGAlias *alias;      /* table alias & optional column aliases */
 	int location;        /* token location, or -1 if unknown */
 	PGNode *sample;      /* sample, if any */
+	PGWinRangeClause *winRangeClause; /* New field for WINRANGE clause */
 } PGRangeVar;
 
 /*

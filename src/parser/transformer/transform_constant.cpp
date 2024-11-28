@@ -1,6 +1,4 @@
-//
-// Created by Usama Bin Tariq on 23.09.24.
-//
+//duckdb reference: src/parser/transform/expression/transform_constant.cpp
 
 #include <nebula/parser/transformer/transformer.hpp>
 #include <nebula/parser/expressions/constant_expression.hpp>

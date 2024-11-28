@@ -214,3 +214,6 @@ static void processCASbits(int cas_bits, int location, const char *constrType,
 			   bool *no_inherit, core_yyscan_t yyscanner);
 static PGNode *makeRecursiveViewSelect(char *relname, PGList *aliases, PGNode *query);
 static PGNode *makeLimitPercent(PGNode *limit_percent);
+
+static PGNode *makeIntervalConstWithUnit(PGNode *value, char *unit);
+static PGNode *makeWinRangeClause(PGNode *intervalValue);

@@ -1,6 +1,4 @@
-//
-// Created by Usama Bin Tariq on 21.09.24.
-//
+//duckdb reference: src/parser/expression/columnref_expression.cpp
 
 #include "nebula/parser/expressions/column_expression.hpp"
 #include "nebula/parser/expressions/parsed_expression.hpp"

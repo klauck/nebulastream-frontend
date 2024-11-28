@@ -1,6 +1,4 @@
-//
-// Created by Usama Bin Tariq on 04.10.24.
-//
+//duckdb reference: src/include/duckdb/parser/set_operation_node.hpp
 
 #pragma once
 #include "query_node.hpp"

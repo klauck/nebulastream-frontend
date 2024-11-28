@@ -1,6 +1,4 @@
-//
-// Created by Usama Bin Tariq on 23.09.24.
-//
+//duckdb reference: src/parser/transform/expression/transform_operator.cpp
 
 #include <nebula/parser/transformer/transformer.hpp>
 #include <string>

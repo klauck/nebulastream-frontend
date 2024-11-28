@@ -1,3 +1,5 @@
+//duckdb reference: src/include/duckdb/parser/query_node.hpp
+
 #pragma once
 #include <vector>
 #include <memory>

@@ -1,6 +1,5 @@
-//
-// Created by Usama Bin Tariq on 18.09.24.
-//
+//duckdb reference: src/include/duckdb/common/enums/statement_type.hpp
+
 #pragma once
 #include <string>
 

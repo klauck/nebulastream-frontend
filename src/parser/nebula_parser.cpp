@@ -19,11 +19,13 @@ namespace nebula {
             return false;
 
         auto transformer = std::make_unique<Transformer>();
-        return transformer->TransformParseTree(parser.parse_tree, statements_collection);
+        return transformer->TransformParseTree(parser.parse_tree, statements);
     }
 
     void Parser::PrintStatements() {
-        statements_collection->Print();
+        for (auto &statement: statements) {
+            statement->Print();
+        }
     }
 
     Parser::Parser() {

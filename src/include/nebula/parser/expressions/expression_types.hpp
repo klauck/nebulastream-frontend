@@ -1,3 +1,5 @@
+//duckdb reference: src/include/duckdb/common/constants.hpp
+
 #pragma once
 #include <string>
 #include <nebula/common/exception.hpp>
@@ -134,7 +136,8 @@ namespace nebula {
           LAMBDA = 231,
           POSITIONAL_REFERENCE = 232,
           BOUND_LAMBDA_REF = 233,
-          BOUND_EXPANDED = 234
+          BOUND_EXPANDED = 234,
+          RANGE_INTERVAL = 235
      };
 
      enum class ExpressionClass : short {
@@ -186,7 +189,8 @@ namespace nebula {
           // Miscellaneous
           //===--------------------------------------------------------------------===//
           BOUND_EXPRESSION = 50,
-          BOUND_EXPANDED = 51
+          BOUND_EXPANDED = 51,
+          WINDOW_RANGE = 52
      };
 
      inline ExpressionType OperatorToExpressionType(const std::string &op) {
@@ -211,22 +215,22 @@ namespace nebula {
           switch (type) {
                case ExpressionType::COMPARE_EQUAL:
                     negated_type = ExpressionType::COMPARE_NOTEQUAL;
-               break;
+                    break;
                case ExpressionType::COMPARE_NOTEQUAL:
                     negated_type = ExpressionType::COMPARE_EQUAL;
-               break;
+                    break;
                case ExpressionType::COMPARE_LESSTHAN:
                     negated_type = ExpressionType::COMPARE_GREATERTHANOREQUALTO;
-               break;
+                    break;
                case ExpressionType::COMPARE_GREATERTHAN:
                     negated_type = ExpressionType::COMPARE_LESSTHANOREQUALTO;
-               break;
+                    break;
                case ExpressionType::COMPARE_LESSTHANOREQUALTO:
                     negated_type = ExpressionType::COMPARE_GREATERTHAN;
-               break;
+                    break;
                case ExpressionType::COMPARE_GREATERTHANOREQUALTO:
                     negated_type = ExpressionType::COMPARE_LESSTHAN;
-               break;
+                    break;
                default:
                     throw NotImplementedException("Unsupported comparison type in negation");
           }

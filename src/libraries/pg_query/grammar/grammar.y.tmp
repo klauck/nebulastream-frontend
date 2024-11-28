@@ -1,5 +1,5 @@
 %{
-#line 1 "third_party/libpg_query/grammar/grammar.hpp"
+#line 1 "../pg_query/grammar/grammar.hpp"
 /*#define YYDEBUG 1*/
 /*-------------------------------------------------------------------------
  *
@@ -217,6 +217,8 @@ static void processCASbits(int cas_bits, int location, const char *constrType,
 static PGNode *makeRecursiveViewSelect(char *relname, PGList *aliases, PGNode *query);
 static PGNode *makeLimitPercent(PGNode *limit_percent);
 
+static PGNode *makeIntervalConstWithUnit(PGNode *value, char *unit);
+static PGNode *makeWinRangeClause(PGNode *intervalValue);
 %}
 #line 5 "third_party/libpg_query/grammar/grammar.y"
 %pure-parser
@@ -458,7 +460,8 @@ static PGNode *makeLimitPercent(PGNode *limit_percent);
 %type <node> pivot_value pivot_column_entry single_pivot_value unpivot_value
 %type <list> pivot_value_list pivot_column_list_internal pivot_column_list pivot_header opt_pivot_group_by unpivot_value_list
 %type <boolean> opt_include_nulls
-%type <objtype> drop_type_any_name
+%type <node> win_range_clause interval_value
+%type <str> time_unit%type <objtype> drop_type_any_name
 %type <objtype> drop_type_name
 %type <list> any_name_list
 %type <dbehavior> opt_drop_behavior
@@ -804,7 +807,7 @@ stmt: AlterObjectSchemaStmt
 	{ $$ = NULL; }
 
 
-#line 1 "third_party/libpg_query/grammar/statements/alter_table.y"
+#line 1 "../pg_query/grammar/statements/alter_table.y"
 /*****************************************************************************
  *
  *	ALTER [ TABLE | INDEX | SEQUENCE | VIEW | MATERIALIZED VIEW ] variations
@@ -1264,7 +1267,7 @@ opt_set_data: SET DATA_P							{ $$ = 1; }
 			| SET									{ $$ = 0; }
 			| /*EMPTY*/								{ $$ = 0; }
 		;
-#line 1 "third_party/libpg_query/grammar/statements/deallocate.y"
+#line 1 "../pg_query/grammar/statements/deallocate.y"
 /*****************************************************************************
  *
  *		QUERY:
@@ -1296,7 +1299,7 @@ DeallocateStmt: DEALLOCATE name
 						$$ = (PGNode *) n;
 					}
 		;
-#line 1 "third_party/libpg_query/grammar/statements/common.y"
+#line 1 "../pg_query/grammar/statements/common.y"
 /*
  * The production for a qualified relation name has to exactly match the
  * production for a qualified func_name, because in a FROM clause we cannot
@@ -1377,7 +1380,7 @@ ColLabel:	IDENT									{ $$ = $1; }
 			| reserved_keyword						{ $$ = pstrdup($1); }
 		;
 
-#line 1 "third_party/libpg_query/grammar/statements/rename.y"
+#line 1 "../pg_query/grammar/statements/rename.y"
 /*****************************************************************************
  *
  * ALTER THING name RENAME TO newname
@@ -1520,7 +1523,7 @@ RenameStmt: ALTER SCHEMA name RENAME TO name
 opt_column: COLUMN									{ $$ = COLUMN; }
 			| /*EMPTY*/								{ $$ = 0; }
 		;
-#line 1 "third_party/libpg_query/grammar/statements/insert.y"
+#line 1 "../pg_query/grammar/statements/insert.y"
 /*****************************************************************************
  *
  *		QUERY:
@@ -1812,7 +1815,7 @@ set_target:
 					$$->location = @1;
 				}
 		;
-#line 1 "third_party/libpg_query/grammar/statements/create_type.y"
+#line 1 "../pg_query/grammar/statements/create_type.y"
 /*****************************************************************************
  *
  * Create Type Statement
@@ -1874,7 +1877,7 @@ enum_val_list: Sconst
 
 
 
-#line 1 "third_party/libpg_query/grammar/statements/pragma.y"
+#line 1 "../pg_query/grammar/statements/pragma.y"
 /*****************************************************************************
  *
  * PRAGMA stmt
@@ -1906,7 +1909,7 @@ PragmaStmt:
 				}
 		;
 
-#line 1 "third_party/libpg_query/grammar/statements/create_sequence.y"
+#line 1 "../pg_query/grammar/statements/create_sequence.y"
 /*****************************************************************************
  *
  *		QUERY :
@@ -1951,7 +1954,7 @@ CreateSeqStmt:
 OptSeqOptList: SeqOptList							{ $$ = $1; }
 			| /*EMPTY*/								{ $$ = NIL; }
 		;
-#line 1 "third_party/libpg_query/grammar/statements/create_secret.y"
+#line 1 "../pg_query/grammar/statements/create_secret.y"
 /*****************************************************************************
  *
  * Create a secret
@@ -2005,7 +2008,7 @@ opt_storage_specifier:
         /* empty */                                 { $$ = pstrdup(""); }
         | IN_P IDENT                                { $$ = $2; }
     ;
-#line 1 "third_party/libpg_query/grammar/statements/update_extensions.y"
+#line 1 "../pg_query/grammar/statements/update_extensions.y"
 /*****************************************************************************
  *
  *		QUERY:
@@ -2028,7 +2031,7 @@ UpdateExtensionsStmt: opt_with_clause UPDATE EXTENSIONS opt_column_list
 					$$ = (PGNode *)n;
 				}
 		;
-#line 1 "third_party/libpg_query/grammar/statements/execute.y"
+#line 1 "../pg_query/grammar/statements/execute.y"
 /*****************************************************************************
  *
  * EXECUTE <plan_name> [(params, ...)]
@@ -2106,7 +2109,7 @@ execute_param_list:  execute_param_expr
 execute_param_clause: '(' execute_param_list ')'				{ $$ = $2; }
 					| /* EMPTY */					{ $$ = NIL; }
 					;
-#line 1 "third_party/libpg_query/grammar/statements/alter_sequence.y"
+#line 1 "../pg_query/grammar/statements/alter_sequence.y"
 /*****************************************************************************
  *
  *		QUERY :
@@ -2227,7 +2230,7 @@ SignedIconst: Iconst								{ $$ = $1; }
 			| '+' Iconst							{ $$ = + $2; }
 			| '-' Iconst							{ $$ = - $2; }
 		;
-#line 1 "third_party/libpg_query/grammar/statements/drop_secret.y"
+#line 1 "../pg_query/grammar/statements/drop_secret.y"
 /*****************************************************************************
  *
  * Drop a secret
@@ -2258,7 +2261,7 @@ opt_storage_drop_specifier:
         /* empty */                                 { $$ = pstrdup(""); }
         | FROM IDENT                                { $$ = $2; }
     ;
-#line 1 "third_party/libpg_query/grammar/statements/transaction.y"
+#line 1 "../pg_query/grammar/statements/transaction.y"
 TransactionStmt:
 			ABORT_P opt_transaction
 				{
@@ -2319,7 +2322,7 @@ opt_transaction_type:
 			| READ_P WRITE_P						{ $$ = PG_TRANS_TYPE_READ_WRITE; }
 			| /*EMPTY*/								{ $$ = PG_TRANS_TYPE_DEFAULT; }
 		;
-#line 1 "third_party/libpg_query/grammar/statements/use.y"
+#line 1 "../pg_query/grammar/statements/use.y"
 UseStmt:
 			USE_P qualified_name
 				{
@@ -2328,7 +2331,7 @@ UseStmt:
 					$$ = (PGNode *) n;
 				}
 		;
-#line 1 "third_party/libpg_query/grammar/statements/create.y"
+#line 1 "../pg_query/grammar/statements/create.y"
 /*****************************************************************************
  *
  *		QUERY :
@@ -3073,7 +3076,7 @@ generated_when:
 			ALWAYS			{ $$ = PG_ATTRIBUTE_IDENTITY_ALWAYS; }
 			| BY DEFAULT	{ $$ = ATTRIBUTE_IDENTITY_BY_DEFAULT; }
 		;
-#line 1 "third_party/libpg_query/grammar/statements/drop.y"
+#line 1 "../pg_query/grammar/statements/drop.y"
 /*****************************************************************************
  *
  *		QUERY:
@@ -3199,7 +3202,7 @@ type_name_list:
 			Typename								{ $$ = list_make1($1); }
 			| type_name_list ',' Typename			{ $$ = lappend($1, $3); }
 			;
-#line 1 "third_party/libpg_query/grammar/statements/create_function.y"
+#line 1 "../pg_query/grammar/statements/create_function.y"
 /*****************************************************************************
  *
  * CREATE FUNCTION stmt
@@ -3343,7 +3346,7 @@ param_list:
 				$$ = $2;
 			}
 	;
-#line 1 "third_party/libpg_query/grammar/statements/update.y"
+#line 1 "../pg_query/grammar/statements/update.y"
 /*****************************************************************************
  *
  *		QUERY:
@@ -3366,7 +3369,7 @@ UpdateStmt: opt_with_clause UPDATE relation_expr_opt_alias
 					$$ = (PGNode *)n;
 				}
 		;
-#line 1 "third_party/libpg_query/grammar/statements/copy.y"
+#line 1 "../pg_query/grammar/statements/copy.y"
 CopyStmt:	COPY opt_binary qualified_name opt_column_list opt_oids
 			copy_from opt_program copy_file_name copy_delimiter opt_with copy_options
 				{
@@ -3618,7 +3621,7 @@ copy_generic_opt_list:
 					$$ = lappend($1, $3);
 				}
 		;
-#line 1 "third_party/libpg_query/grammar/statements/select.y"
+#line 1 "../pg_query/grammar/statements/select.y"
 
 /*****************************************************************************
  *
@@ -4624,9 +4627,35 @@ values_clause_opt_comma:
  *****************************************************************************/
 
 from_clause:
-			FROM from_list_opt_comma							{ $$ = $2; }
+			FROM win_range_clause from_list_opt_comma 						{ 
+				$$ = lappend($3, $2);
+			}
+			| FROM from_list_opt_comma 										{ $$ = $2; }
 			| /*EMPTY*/								{ $$ = NIL; }
 		;
+
+win_range_clause:
+    '[' RANGE interval_value ']'
+        {
+            $$ = makeWinRangeClause($3);
+        }
+;
+
+interval_value:
+    ICONST time_unit
+        {
+            $$ = makeIntervalConstWithUnit(makeIntConst($1, @1), $2);
+        }
+;
+
+time_unit:
+    YEAR_P | YEARS_P       { $$ = "year"; }
+    | MONTH_P | MONTHS_P   { $$ = "month"; }
+    | DAY_P | DAYS_P       { $$ = "day"; }
+    | HOUR_P | HOURS_P     { $$ = "hour"; }
+    | MINUTE_P | MINUTES_P { $$ = "minute"; }
+    | SECOND_P | SECONDS_P { $$ = "second"; }
+;
 
 from_list:
 			table_ref								{ $$ = list_make1($1); }
@@ -7798,7 +7827,7 @@ param_name:	type_function_name
 ColLabelOrString:	ColLabel						{ $$ = $1; }
 					| SCONST						{ $$ = $1; }
 		;
-#line 1 "third_party/libpg_query/grammar/statements/prepare.y"
+#line 1 "../pg_query/grammar/statements/prepare.y"
 /*****************************************************************************
  *
  *		QUERY:
@@ -7828,7 +7857,7 @@ PreparableStmt:
 			| DeleteStmt
 			| VariableShowStmt				/* by default all are $$=$1 */
 		;
-#line 1 "third_party/libpg_query/grammar/statements/create_schema.y"
+#line 1 "../pg_query/grammar/statements/create_schema.y"
 /*****************************************************************************
  *
  * Manipulate a schema
@@ -7918,7 +7947,7 @@ schema_stmt:
 			| CreateSeqStmt
 			| ViewStmt
 		;
-#line 1 "third_party/libpg_query/grammar/statements/index.y"
+#line 1 "../pg_query/grammar/statements/index.y"
 /*****************************************************************************
  *
  *		QUERY: CREATE INDEX
@@ -8010,7 +8039,7 @@ opt_unique:
 			UNIQUE									{ $$ = true; }
 			| /*EMPTY*/								{ $$ = false; }
 		;
-#line 1 "third_party/libpg_query/grammar/statements/alter_schema.y"
+#line 1 "../pg_query/grammar/statements/alter_schema.y"
 /*****************************************************************************
  *
  * ALTER THING name SET SCHEMA name
@@ -8072,7 +8101,7 @@ AlterObjectSchemaStmt:
 					$$ = (PGNode *)n;
 				}
 		;
-#line 1 "third_party/libpg_query/grammar/statements/checkpoint.y"
+#line 1 "../pg_query/grammar/statements/checkpoint.y"
 /*
  * Checkpoint statement
  */
@@ -8096,7 +8125,7 @@ CheckPointStmt:
 opt_col_id:
 	ColId 						{ $$ = $1; }
 	| /* empty */ 				{ $$ = NULL; }
-#line 1 "third_party/libpg_query/grammar/statements/comment_on.y"
+#line 1 "../pg_query/grammar/statements/comment_on.y"
 /*****************************************************************************
  *
  * Create a Comment
@@ -8137,7 +8166,7 @@ comment_on_type_any_name:
 			| SCHEMA								{ $$ = PG_OBJECT_SCHEMA; }
 			| TYPE_P								{ $$ = PG_OBJECT_TYPE; }
 		;
-#line 1 "third_party/libpg_query/grammar/statements/export.y"
+#line 1 "../pg_query/grammar/statements/export.y"
 /*****************************************************************************
  *
  * EXPORT/IMPORT stmt
@@ -8177,7 +8206,7 @@ ImportStmt:
 					$$ = (PGNode *)n;
 				}
 		;
-#line 1 "third_party/libpg_query/grammar/statements/explain.y"
+#line 1 "../pg_query/grammar/statements/explain.y"
 /*****************************************************************************
  *
  *		QUERY:
@@ -8323,7 +8352,7 @@ explain_option_name:
 			NonReservedWord			{ $$ = $1; }
 			| analyze_keyword		{ $$ = (char*) "analyze"; }
 		;
-#line 1 "third_party/libpg_query/grammar/statements/variable_set.y"
+#line 1 "../pg_query/grammar/statements/variable_set.y"
 /*****************************************************************************
  *
  * Set PG internal variable
@@ -8463,7 +8492,7 @@ zone_value:
 var_list:	var_value								{ $$ = list_make1($1); }
 			| var_list ',' var_value				{ $$ = lappend($1, $3); }
 		;
-#line 1 "third_party/libpg_query/grammar/statements/load.y"
+#line 1 "../pg_query/grammar/statements/load.y"
 /*****************************************************************************
  *
  *		QUERY:
@@ -8519,7 +8548,7 @@ opt_ext_version:
                /* empty */                      { $$ = NULL; } |
                 VERSION_P Sconst				{ $$ = $2; } |
                 VERSION_P ColId                 { $$ = $2; };
-#line 1 "third_party/libpg_query/grammar/statements/vacuum.y"
+#line 1 "../pg_query/grammar/statements/vacuum.y"
 /*****************************************************************************
  *
  *		QUERY:
@@ -8620,7 +8649,7 @@ vacuum_option_list:
 opt_freeze: FREEZE									{ $$ = true; }
 			| /*EMPTY*/								{ $$ = false; }
 		;
-#line 1 "third_party/libpg_query/grammar/statements/delete.y"
+#line 1 "../pg_query/grammar/statements/delete.y"
 /*****************************************************************************
  *
  *		QUERY:
@@ -8683,7 +8712,7 @@ using_clause:
 				USING from_list_opt_comma						{ $$ = $2; }
 			| /*EMPTY*/								{ $$ = NIL; }
 		;
-#line 1 "third_party/libpg_query/grammar/statements/analyze.y"
+#line 1 "../pg_query/grammar/statements/analyze.y"
 /*****************************************************************************
  *
  *		QUERY:
@@ -8713,7 +8742,7 @@ AnalyzeStmt:
 					$$ = (PGNode *)n;
 				}
 		;
-#line 1 "third_party/libpg_query/grammar/statements/attach.y"
+#line 1 "../pg_query/grammar/statements/attach.y"
 /*****************************************************************************
  *
  * Attach Statement
@@ -8779,7 +8808,7 @@ ident_list:
 			ident_name								{ $$ = list_make1($1); }
 			| ident_list ',' ident_name				{ $$ = lappend($1, $3); }
 		;
-#line 1 "third_party/libpg_query/grammar/statements/variable_reset.y"
+#line 1 "../pg_query/grammar/statements/variable_reset.y"
 VariableResetStmt:
 			RESET reset_rest
 			{
@@ -8843,7 +8872,7 @@ reset_rest:
 					$$ = n;
 				}
 		;
-#line 1 "third_party/libpg_query/grammar/statements/variable_show.y"
+#line 1 "../pg_query/grammar/statements/variable_show.y"
 /* allows SET or RESET without LOCAL */
 VariableShowStmt:
 			show_or_describe SelectStmt {
@@ -8919,7 +8948,7 @@ table_id:	ColId								{ $$ = psprintf("\"%s\"", $1); }
 			| table_id '.' ColId
 				{ $$ = psprintf("%s.\"%s\"", $1, $3); }
 		;
-#line 1 "third_party/libpg_query/grammar/statements/call.y"
+#line 1 "../pg_query/grammar/statements/call.y"
 /*****************************************************************************
  *
  * CALL <proc_name> [(params, ...)]
@@ -8932,7 +8961,7 @@ CallStmt: CALL_P func_application
 					$$ = (PGNode *) n;
 				}
 		;
-#line 1 "third_party/libpg_query/grammar/statements/view.y"
+#line 1 "../pg_query/grammar/statements/view.y"
 /*****************************************************************************
  *
  *	QUERY:
@@ -9024,7 +9053,7 @@ opt_check_option:
 		| WITH LOCAL CHECK_P OPTION		{ $$ = PG_LOCAL_CHECK_OPTION; }
 		| /* EMPTY */					{ $$ = PG_NO_CHECK_OPTION; }
 		;
-#line 1 "third_party/libpg_query/grammar/statements/create_as.y"
+#line 1 "../pg_query/grammar/statements/create_as.y"
 /*****************************************************************************
  *
  *		QUERY :
@@ -9109,7 +9138,7 @@ reserved_keyword: ALL | ANALYSE | ANALYZE | AND | ANY | ARRAY | AS | ASC_P | ASY
 
 %%
 
-#line 1 "third_party/libpg_query/grammar/grammar.cpp"
+#line 1 "../pg_query/grammar/grammar.cpp"
 /*
  * The signature of this function is required by bison.  However, we
  * ignore the passed yylloc and instead use the last token position
@@ -9851,6 +9880,26 @@ void
 parser_init(base_yy_extra_type *yyext)
 {
 	yyext->parsetree = NIL;		/* in case grammar forgets to set it */
+}
+
+static PGNode* 
+makeWinRangeClause(PGNode *intervalValue)
+{
+    PGWinRangeClause *n = makeNode(PGWinRangeClause);
+    n->interval = intervalValue;
+    return  (PGNode*) n;
+}
+
+static PGNode* 
+makeIntervalConstWithUnit(PGNode *value, char *unit)
+{
+    /* Create an interval literal node */
+    IntervalValue *interval = (IntervalValue *) palloc(sizeof(IntervalValue));
+	interval->type = T_PGRangeInterval;
+	interval->unit = unit;
+	interval->value = value;
+
+	return (PGNode *) interval;
 }
 
 #undef yyparse

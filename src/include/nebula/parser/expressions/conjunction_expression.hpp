@@ -1,11 +1,10 @@
-//
-// Created by Usama Bin Tariq on 01.10.24.
-//
+//duckdb reference: src/include/duckdb/parser/expression/conjunction_expression.hpp
+
 #pragma once
 #include "parsed_expression.hpp"
-#include<vector>
+#include <vector>
 #include <string>
-#include<memory>
+#include <memory>
 
 //this class represents 'and' and 'or' expressions
 namespace nebula {
