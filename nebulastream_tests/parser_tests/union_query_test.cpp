@@ -80,7 +80,7 @@ TEST(PARSER_TEST, UNION_QUERY_TEST) {
 
     // verify the column names
     ASSERT_EQ(left_node->select_list.size(), 1);
-    ASSERT_EQ(right_node->select_list.size(), 2);
+    ASSERT_EQ(right_node->select_list.size(), 1);
 
     ASSERT_EQ(left_node->select_list[0]->type, nebula::ExpressionType::STAR);
     ASSERT_EQ(right_node->select_list[0]->type, nebula::ExpressionType::STAR);
