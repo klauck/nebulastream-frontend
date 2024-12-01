@@ -1,0 +1,30 @@
+name: Run Tests
+
+on:
+   push:
+      branches:
+         - github_actions_implementation
+   pull_request:
+
+jobs:
+   build-and-test:
+      runs-on: ubuntu-latest
+
+      steps:
+         - name: Checkout code
+           uses: actions/checkout@v3
+
+         - name: Install dependencies
+           run: sudo apt-get update && sudo apt-get install -y cmake g++ gcc
+
+         - name: Build the project
+           run: |
+              mkdir build
+              cd build
+              cmake ../
+              make
+
+         - name: Run parser tests
+           run: |
+              cd build/nebulastream_tests/parser_tests
+              ./parser_tests
