@@ -171,7 +171,7 @@ opt_select:
 simple_select:
 			SELECT opt_all_clause opt_target_list_opt_comma
 			into_clause from_clause where_clause
-			group_clause having_clause window_clause qualify_clause sample_clause
+			group_clause having_clause opt_win_range_clause qualify_clause sample_clause
 				{
 					PGSelectStmt *n = makeNode(PGSelectStmt);
 					n->targetList = $3;
@@ -180,14 +180,14 @@ simple_select:
 					n->whereClause = $6;
 					n->groupClause = $7;
 					n->havingClause = $8;
-					n->windowClause = $9;
+					n->winRangeClause = $9;
 					n->qualifyClause = $10;
 					n->sampleOptions = $11;
 					$$ = (PGNode *)n;
 				}
 			| SELECT distinct_clause target_list_opt_comma
 			into_clause from_clause where_clause
-			group_clause having_clause window_clause qualify_clause sample_clause
+			group_clause having_clause opt_win_range_clause qualify_clause sample_clause
 				{
 					PGSelectStmt *n = makeNode(PGSelectStmt);
 					n->distinctClause = $2;
@@ -197,14 +197,14 @@ simple_select:
 					n->whereClause = $6;
 					n->groupClause = $7;
 					n->havingClause = $8;
-					n->windowClause = $9;
+					n->winRangeClause = $9;
 					n->qualifyClause = $10;
 					n->sampleOptions = $11;
 					$$ = (PGNode *)n;
 				}
 			|  FROM from_list opt_select
 			into_clause where_clause
-			group_clause having_clause window_clause qualify_clause sample_clause
+			group_clause having_clause opt_win_range_clause qualify_clause sample_clause
 				{
 					PGSelectStmt *n = makeNode(PGSelectStmt);
 					n->targetList = $3;
@@ -213,7 +213,7 @@ simple_select:
 					n->whereClause = $5;
 					n->groupClause = $6;
 					n->havingClause = $7;
-					n->windowClause = $8;
+					n->winRangeClause = $8;
 					n->qualifyClause = $9;
 					n->sampleOptions = $10;
 					$$ = (PGNode *)n;
@@ -221,7 +221,7 @@ simple_select:
 			|
 			FROM from_list SELECT distinct_clause target_list_opt_comma
 			into_clause where_clause
-			group_clause having_clause window_clause qualify_clause sample_clause
+			group_clause having_clause opt_win_range_clause qualify_clause sample_clause
 				{
 					PGSelectStmt *n = makeNode(PGSelectStmt);
 					n->targetList = $5;
@@ -231,7 +231,7 @@ simple_select:
 					n->whereClause = $7;
 					n->groupClause = $8;
 					n->havingClause = $9;
-					n->windowClause = $10;
+					n->winRangeClause = $10;
 					n->qualifyClause = $11;
 					n->sampleOptions = $12;
 					$$ = (PGNode *)n;
@@ -377,6 +377,35 @@ simple_select:
 					$$ = (PGNode *)res;
 				}
 		;
+
+
+opt_win_range_clause:
+			/*EMPTY*/								{ $$ = NULL; }
+			| win_range_clause						{ $$ = $1; }
+		;
+
+win_range_clause:
+	WINDOW RANGE interval_value
+        {
+            $$ = makeWinRangeClause($3);
+        }
+;
+
+interval_value:
+    ICONST time_unit
+        {
+            $$ = makeIntervalConstWithUnit(makeIntConst($1, @1), $2);
+        }
+;
+
+time_unit:
+    YEAR_P | YEARS_P       { $$ = "year"; }
+    | MONTH_P | MONTHS_P   { $$ = "month"; }
+    | DAY_P | DAYS_P       { $$ = "day"; }
+    | HOUR_P | HOURS_P     { $$ = "hour"; }
+    | MINUTE_P | MINUTES_P { $$ = "minute"; }
+    | SECOND_P | SECONDS_P { $$ = "second"; }
+;
 
 value_or_values:
 		VALUE_P | VALUES
@@ -1003,35 +1032,9 @@ values_clause_opt_comma:
  *****************************************************************************/
 
 from_clause:
-			FROM win_range_clause from_list_opt_comma 						{ 
-				$$ = lappend($3, $2);
-			}
-			| FROM from_list_opt_comma 										{ $$ = $2; }
+			FROM from_list_opt_comma 										{ $$ = $2; }
 			| /*EMPTY*/								{ $$ = NIL; }
 		;
-
-win_range_clause:
-    '[' RANGE interval_value ']'
-        {
-            $$ = makeWinRangeClause($3);
-        }
-;
-
-interval_value:
-    ICONST time_unit
-        {
-            $$ = makeIntervalConstWithUnit(makeIntConst($1, @1), $2);
-        }
-;
-
-time_unit:
-    YEAR_P | YEARS_P       { $$ = "year"; }
-    | MONTH_P | MONTHS_P   { $$ = "month"; }
-    | DAY_P | DAYS_P       { $$ = "day"; }
-    | HOUR_P | HOURS_P     { $$ = "hour"; }
-    | MINUTE_P | MINUTES_P { $$ = "minute"; }
-    | SECOND_P | SECONDS_P { $$ = "second"; }
-;
 
 from_list:
 			table_ref								{ $$ = list_make1($1); }

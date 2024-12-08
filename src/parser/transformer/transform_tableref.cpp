@@ -54,9 +54,7 @@ namespace nebula {
         }
     }
 
-    std::vector<std::unique_ptr<TableRef> > Transformer::TransformFromClause(pgquery::PGList *from,
-                                                                             std::unique_ptr<WindowRangeNode> &
-                                                                             window_node) {
+    std::vector<std::unique_ptr<TableRef> > Transformer::TransformFromClause(pgquery::PGList *from) {
         std::unique_ptr<std::string> from_table = std::make_unique<std::string>();
 
 
@@ -71,25 +69,7 @@ namespace nebula {
 
             for (auto cc = from->head; cc != nullptr; cc = cc->next) {
                 auto *node = static_cast<pgquery::PGNode *>(cc->data.ptr_value);
-
-                if (node->type == pgquery::T_PGWinRangeClause) {
-                    auto range_clause = reinterpret_cast<pgquery::PGWinRangeClause *>(node);
-
-                    auto interval = reinterpret_cast<pgquery::IntervalValue *>(range_clause->interval);
-
-                    window_node = std::make_unique<WindowRangeNode>(WindowRangeNodeType::TUMBLING_WINDOW);
-                    window_node->range = std::make_unique<RangeIntervalExpression>();
-                    window_node->range->unit = interval->unit;
-
-                    //convert value into pg const
-                    auto iv = reinterpret_cast<pgquery::PGAConst *>(interval->value);
-
-                    if (iv != nullptr) {
-                        window_node->range->value = iv->val.val.ival;
-                    }
-                } else {
-                    results.emplace_back(std::move(TransformTableRefNode(node)));
-                }
+                results.emplace_back(std::move(TransformTableRefNode(node)));
             }
         }
 

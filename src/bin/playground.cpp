@@ -6,7 +6,7 @@
 
 
 int main() {
-	const std::string query = "SELECT abc FROM [RANGE 10 HOUR] abc, xyz";
+	const std::string query = "SELECT abc FROM abc WINDOW RANGE 4 HOUR";
 
 	std::cout << "Query: " << query << std::endl;
 

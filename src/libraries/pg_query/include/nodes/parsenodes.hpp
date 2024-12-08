@@ -1257,6 +1257,7 @@ typedef struct PGSelectStmt {
 	PGNode *havingClause;     /* HAVING conditional-expression */
 	PGList *windowClause;     /* WINDOW window_name AS (...), ... */
 	PGNode *qualifyClause;    /* QUALIFY conditional-expression */
+	PGNode *winRangeClause; /* WINDOW RANGE clause */
 
 	/*
 	 * In a "leaf" node representing a VALUES list, the above fields are all
